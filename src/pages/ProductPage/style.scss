@@ -1,0 +1,159 @@
+@import "../../assets/styles/mixins";
+
+.product-page {
+    width: 100%;
+    padding: 0 0 30px 0;
+    &__row {
+        display: flex;
+        gap: 15px;
+        @media screen and (max-width: 750px){
+            flex-wrap: wrap;
+        }
+    }
+    &__column {
+        &:not(&.characteristics) {
+            flex: 0 1 100%;
+        }
+        &.characteristics {
+            align-self: flex-start;
+            display: flex;
+            flex-direction: column;
+            flex: 0 1 200px;
+            position: sticky;
+            top: 130px;
+            .product-page__product-title {
+                font-size: 16px;
+                @media screen and (max-width: 600px){
+                    @include adapProp('font-size', 24, 30)
+                }
+            }
+        }
+        &:last-child {
+            display: flex;
+            gap: 25px;
+            @media screen and (max-width: 600px){
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            @media screen and (max-width: 750px){
+                flex: 1;
+            }
+        }
+    }
+    &__characteristics {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    &__characteristic {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        &__title {
+            font-size: 14px;
+            font-family: 'Russo One', 'sans-serif';
+        }
+        &__text {
+            color: grey;
+            font-size: 14px;
+            font-family: 'Russo One', 'sans-serif';
+            word-wrap: anywhere;
+        }
+    }
+    &__picture {
+        position: sticky;
+        top: 110.5px;
+        flex: 0 1 350px;
+        background: #EAEAEA;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: max-content;
+        @media screen and (max-width: 600px){
+            flex: 1 1 100%;
+            position: static;
+        }
+        img {
+            padding: 15px;
+            max-height: 350px;
+        }
+        &.characteristics {
+            width: max-content;
+            position: static;
+            flex: 0 1 200px;
+            img {
+                max-height: 200px;
+            }
+            @media screen and (max-width: 400px){
+                flex: 1;
+                width: 100%;
+                img {
+                    width: auto;
+                    max-height: 350px;
+                }
+            }
+        }
+    }
+    &__additional-data {
+        flex: 1;
+        gap: 15px;
+        display: flex;
+        flex-direction: column;
+    }
+    &__product-title {
+        font-weight: 600;
+        font-family: "Open Sans", 'sans-serif';
+        @include adapProp('font-size', 24, 30)
+    }
+    &__product-price {
+        font-family: "Russo One", 'sans-serif';
+        @include adapProp('font-size', 24, 28)
+    }
+    &__product-button {
+        align-self: flex-start;
+        cursor: pointer;
+        border-radius: 8px;
+        padding: 10px 20px;
+        max-width: 100%;
+        font-size: 16px;
+        color: white;
+        white-space: nowrap;
+        font-weight: 600;
+        font-family: "Open Sans", sans-serif;
+        &.add-to-cart {
+            background: #F69A12;
+        }
+        &.has {
+            background: #20b920;
+        }
+    }
+    &__tabs {
+        position: sticky;
+        top: 60px;
+        margin-bottom: 15px;
+        background: #8446cf;
+        padding: 15px 0;
+        z-index: 100;
+        &__container {
+            display: flex;
+            gap: 15px;
+        }
+    }
+    &__tab {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        a {
+            @include adapProp('font-size', 14, 16);
+            color: black;
+            font-family: "Open Sans", sans-serif;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            &.active {
+                color: white;
+            }
+        }
+    }
+}
