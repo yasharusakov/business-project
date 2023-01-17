@@ -1,9 +1,9 @@
 import {useEffect, useState} from "react"
 import {useParams} from "react-router-dom"
-import CategoryPageProducts from "../../components/CategoryPageProducts"
+import CategoryPageProducts from "../../components/categoryPageProducts"
 import {doc, getDoc, getFirestore} from "firebase/firestore"
 import {ICategory} from "../../types/ICategory"
-import Loader from "../../components/UI/Loader"
+import Loader from "../../components/ui/loader"
 
 import './style.scss'
 

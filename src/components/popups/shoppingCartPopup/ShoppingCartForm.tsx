@@ -1,7 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from "yup"
-import Logo from "../../UI/Logo";
 
 const reg = /^\+?3?8?(0\d{9})$/
 

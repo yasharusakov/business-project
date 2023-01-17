@@ -1,14 +1,14 @@
-import Logo from "../UI/Logo"
-import Popup from "../Popup"
-import ShoppingCartPopup from "../Popups/ShoppingCartPopup"
-import CategoriesPopup from "../Popups/CategoriesPopup"
+import Logo from "../ui/logo"
+import Popup from "../popup"
+import ShoppingCartPopup from "../popups/shoppingCartPopup"
+import CategoriesPopup from "../popups/categoriesPopup"
 
 import instagram from '../../assets/images/instagram.png'
 import payments from '../../assets/images/payments.png'
 
 import './style.scss'
 
-const AppFooter = () => {
+const Footer = () => {
     return (
         <footer className="footer">
             <div style={{paddingTop: 30, paddingBottom: 30}} className="footer__container container">
@@ -43,4 +43,4 @@ const AppFooter = () => {
     )
 }
 
-export default AppFooter
+export default Footer

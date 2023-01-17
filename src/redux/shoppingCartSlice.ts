@@ -1,7 +1,7 @@
 import {createSlice, Draft, PayloadAction} from "@reduxjs/toolkit"
-import {IShoppingCart} from "../../types/IShoppingCart"
-import {IProductInCart} from "../../types/IProductInCart"
-import {removeDuplicateObjects} from "../../utils/removeDuplicateObjects"
+import {IShoppingCart} from "../types/IShoppingCart"
+import {IProductInCart} from "../types/IProductInCart"
+import {removeDuplicateObjects} from "../utils/removeDuplicateObjects"
 
 const initialState: IShoppingCart = {
     products: []

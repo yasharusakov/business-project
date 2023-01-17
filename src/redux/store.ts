@@ -1,6 +1,6 @@
 import {configureStore} from "@reduxjs/toolkit"
-import shoppingCartSlice from "./slices/shoppingCartSlice"
-import popupSlice from "./slices/popupSlice"
+import shoppingCartSlice from "./shoppingCartSlice"
+import popupSlice from "./popupSlice"
 
 const store = configureStore({
     reducer: {shoppingCart: shoppingCartSlice, popup: popupSlice},

@@ -1,6 +1,6 @@
 import {useState} from "react"
-import Loader from "../../components/UI/Loader"
-import MainPageCategories from "../../components/MainPageCategories"
+import Loader from "../../components/ui/loader"
+import MainPageCategories from "../../components/mainPageCategories"
 
 import wallet from '../../assets/images/wallet.png'
 import delivery from '../../assets/images/delivery.png'

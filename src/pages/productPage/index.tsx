@@ -2,11 +2,11 @@ import {FC, useEffect, useState, Fragment} from "react"
 import {NavLink, useParams} from "react-router-dom"
 import {useActions} from "../../hooks/useActions"
 import {useAppSelector} from "../../hooks/useAppSelector"
-import ProductPageCharacteristics from "../../components/ProductPageCharacteristics"
+import ProductPageCharacteristics from "../../components/productPageCharacteristics"
 import {IProduct} from "../../types/IProduct"
-import {collection, doc, getDoc, getFirestore, getDocs} from "firebase/firestore"
 import {IProductCharacteristic} from "../../types/IProductCharacteristic"
-import Loader from "../../components/UI/Loader"
+import Loader from "../../components/ui/loader"
+import FirebaseService from "../../services/firebaseService"
 
 import './style.scss'
 
@@ -25,32 +25,12 @@ const ProductPage: FC<ProductPageProps> = ({characteristics}) => {
     const [productCharacteristics, setProductCharacteristics] = useState<IProductCharacteristic[]>([])
     const products = useAppSelector(state => state.shoppingCart.products)
     const {addToCart, setPopup} = useActions()
-    const db = getFirestore()
     const [loading, setLoading] = useState<boolean>(true)
-
-    const getProduct = async () => {
-        try {
-            const docRef = doc(db, `/categories/${categoryId}/items/${productId}`)
-            const docSnapshot = await getDoc(docRef)
-            const docData = docSnapshot.data() as IProduct
-
-            const docRef2 = collection(db, `/categories/${categoryId}/items/${productId}/characteristics`)
-            const docsSnapshot2 = await getDocs(docRef2)
-            const docsData2 = docsSnapshot2.docs.map(doc => ({...doc.data(), id: doc.id} as IProductCharacteristic))
-
-            return {
-                product: docData,
-                characteristics: docsData2
-            }
-        } catch (err) {
-            console.log(err)
-        }
-    }
 
     useEffect(() => {
         if (!categoryId || !productId) return
 
-        getProduct()
+        FirebaseService.getProduct(categoryId, productId)
             .then(data => {
                 if (!data) return
 

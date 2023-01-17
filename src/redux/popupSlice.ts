@@ -1,5 +1,5 @@
 import {createSlice, Draft, PayloadAction} from "@reduxjs/toolkit"
-import {PopupState, IPopupPayloadAction} from "../../types/popup"
+import {PopupState, IPopupPayloadAction} from "../types/popup"
 
 const initialState: PopupState = {
 	ShoppingCart: {type: false, data: null},

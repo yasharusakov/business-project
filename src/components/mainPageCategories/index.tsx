@@ -1,7 +1,7 @@
 import {FC, memo, useEffect, useState} from "react"
-import MainPageCategory from "../MainPageCategory"
+import MainPageCategory from "../mainPageCategory"
 import {ICategory} from "../../types/ICategory"
-import {collection, getFirestore, getDocs} from 'firebase/firestore'
+import FirebaseService from '../../services/firebaseService'
 
 import '../../assets/styles/cards.scss'
 
@@ -11,21 +11,9 @@ interface MainPageCategoriesProps {
 
 const MainPageCategories: FC<MainPageCategoriesProps> = memo(({setLoading}) => {
     const [categories, setCategories] = useState<ICategory[]>([])
-    const db = getFirestore()
-
-    const getCategories = async () => {
-        try {
-            const collectionRef = collection(db, '/categories')
-            const docsSnapshot = await getDocs(collectionRef)
-            const docsData = docsSnapshot.docs.map<ICategory>(doc => ({...doc.data(), id: doc.id} as ICategory))
-            return docsData
-        } catch (err) {
-            console.log(err)
-        }
-    }
 
     useEffect(() => {
-        getCategories()
+        FirebaseService.getCategories()
             .then(data => {
                 if (!data) return
 

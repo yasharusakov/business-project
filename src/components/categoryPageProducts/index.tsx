@@ -1,7 +1,7 @@
-import {collection, getDocs, getFirestore} from "firebase/firestore"
 import {FC, memo, useEffect, useMemo, useState} from "react"
 import {IProduct} from "../../types/IProduct"
-import CategoryPageProduct from "../CategoryPageProduct"
+import CategoryPageProduct from "../categoryPageProduct"
+import FirebaseService from "../../services/firebaseService"
 
 import '../../assets/styles/cards.scss'
 
@@ -12,23 +12,16 @@ interface CategoryPageProducts {
 
 const CategoryPageProducts: FC<CategoryPageProducts> = memo(({filterBy, categoryId}) => {
     const [products, setProducts] = useState<IProduct[]>([])
-    const db = getFirestore()
-
-    const getProducts = async () => {
-        try {
-            const collectionRef = collection(db, `/categories/${categoryId}/items`)
-            const docsSnapshot = await getDocs(collectionRef)
-            const docsData = docsSnapshot.docs.map<IProduct>(doc => ({...doc.data(), id: doc.id} as IProduct))
-            setProducts(docsData)
-        } catch (err) {
-            console.log(err)
-        }
-    }
 
     useEffect(() => {
         if (!categoryId) return
 
-        getProducts()
+        FirebaseService.getProducts(categoryId)
+            .then((data) => {
+                if (!data) return
+
+                setProducts(data)
+            })
     }, [categoryId])
 
     const filteredProducts = useMemo(() => {

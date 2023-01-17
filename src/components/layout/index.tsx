@@ -1,6 +1,6 @@
 import {FC, ReactNode} from "react"
-import AppHeader from "../AppHeader"
-import AppFooter from "../AppFooter"
+import Header from "../header"
+import Footer from "../footer"
 
 import './style.scss'
 
@@ -12,11 +12,11 @@ const Layout: FC<LayoutProps> = ({children}) => {
     return (
         <div className="layout">
             <div className="layout__container">
-                <AppHeader/>
+                <Header/>
                 <main className="layout__content">
                     {children}
                 </main>
-                <AppFooter/>
+                <Footer/>
             </div>
         </div>
     )

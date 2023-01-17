@@ -1,14 +1,5 @@
 import {initializeApp} from "firebase/app"
-
-interface IFirebaseConfig {
-    apiKey: string | undefined
-    authDomain: string | undefined
-    projectId: string | undefined
-    storageBucket: string | undefined
-    messagingSenderId: string | undefined
-    appId: string | undefined
-    measurementId: string | undefined
-}
+import {IFirebaseConfig} from "./types/IFirebaseConfig"
 
 const firebaseConfig: IFirebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,

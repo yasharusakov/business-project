@@ -1,29 +1,17 @@
 import {useEffect, useState} from "react"
 import {ICategory} from "../../../types/ICategory"
 import {useActions} from "../../../hooks/useActions"
-import {collection, getDocs, getFirestore} from "firebase/firestore"
 import {Link} from "react-router-dom"
+import FirebaseService from "../../../services/firebaseService"
 
 import './style.scss'
 
 const CategoriesPopup = () => {
     const {setPopup} = useActions()
-    const db = getFirestore()
     const [categories, setCategories] = useState<ICategory[]>([])
 
-    const getCategories = async () => {
-        try {
-            const collectionRef = collection(db, '/categories')
-            const docsSnapshot = await getDocs(collectionRef)
-            const docsData = docsSnapshot.docs.map<ICategory>(doc => ({...doc.data(), id: doc.id} as ICategory))
-            return docsData
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
     useEffect(() => {
-        getCategories()
+        FirebaseService.getCategories()
             .then(data => {
                 if (!data) return
 
