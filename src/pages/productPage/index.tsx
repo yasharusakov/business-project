@@ -1,5 +1,5 @@
 import {FC, useEffect, useState, Fragment} from "react"
-import {NavLink, useParams} from "react-router-dom"
+import {useParams} from "react-router-dom"
 import {useActions} from "../../hooks/useActions"
 import {useAppSelector} from "../../hooks/useAppSelector"
 import ProductPageCharacteristics from "../../components/productPageCharacteristics"
@@ -7,7 +7,7 @@ import {IProduct} from "../../types/IProduct"
 import {IProductCharacteristic} from "../../types/IProductCharacteristic"
 import Loader from "../../components/ui/loader"
 import FirebaseService from "../../services/firebaseService"
-
+import Tabs from "../../components/ui/tabs"
 import './style.scss'
 
 type ProductPageParams = {
@@ -33,30 +33,24 @@ const ProductPage: FC<ProductPageProps> = ({characteristics}) => {
         FirebaseService.getProduct(categoryId, productId)
             .then(data => {
                 if (!data) return
-
                 setProduct(data.product)
                 setProductCharacteristics(data.characteristics)
             })
-            .finally(() => {
-                setTimeout(() => {
-                    setLoading(false)
-                }, 500)
-            })
+            .finally(() => setLoading(false))
     }, [categoryId, productId])
+
+    if (loading) {
+        return <Loader/>
+    }
+
+    const tabs = [
+        {to: `/c/${categoryId}/${productId}`, value: 'Усе про товар'},
+        {to: `/c/${categoryId}/${productId}/characteristics`, value: 'Характеристики'}
+    ]
 
     return (
         <div className="product-page">
-            <Loader loading={loading}/>
-            <div className="product-page__tabs">
-                <div className="product-page__tabs__container container">
-                    <div className="product-page__tab">
-                        <NavLink to={`/c/${categoryId}/${productId}`} end>Усе про товар</NavLink>
-                    </div>
-                    <div className="product-page__tab">
-                        <NavLink to={`/c/${categoryId}/${productId}/characteristics`}>Характеристики</NavLink>
-                    </div>
-                </div>
-            </div>
+            <Tabs tabs={tabs}/>
             <div className="product-page__container container">
                 <div className="product-page__row">
                     {(characteristics && productCharacteristics.length > 0) && <ProductPageCharacteristics productCharacteristics={productCharacteristics}/>}

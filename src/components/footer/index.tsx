@@ -2,10 +2,8 @@ import Logo from "../ui/logo"
 import Popup from "../popup"
 import ShoppingCartPopup from "../popups/shoppingCartPopup"
 import CategoriesPopup from "../popups/categoriesPopup"
-
 import instagram from '../../assets/images/instagram.png'
 import payments from '../../assets/images/payments.png'
-
 import './style.scss'
 
 const Footer = () => {

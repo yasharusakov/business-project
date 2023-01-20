@@ -3,7 +3,6 @@ import {IPopup} from "../../types/popup"
 import {MouseEvent} from "react"
 import {FC, memo} from 'react'
 import {useActions} from "../../hooks/useActions"
-
 import './style.scss'
 
 const Popup: FC<IPopup> = memo(({title, name, render}) => {

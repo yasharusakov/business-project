@@ -3,7 +3,8 @@ import {PopupState, IPopupPayloadAction} from "../types/popup"
 
 const initialState: PopupState = {
 	ShoppingCart: {type: false, data: null},
-	CategoriesPopup: {type: false, data: null}
+	CategoriesPopup: {type: false, data: null},
+	CreateCategoryPopup: {type: false, data: null}
 }
 
 const popupSlice = createSlice({

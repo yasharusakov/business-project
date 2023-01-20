@@ -3,7 +3,6 @@ import {useAppSelector} from "../../../hooks/useAppSelector"
 import ShoppingCartForm from "./ShoppingCartForm"
 import Products from "./Products"
 import EmptyCart from "./EmptyCart"
-
 import './style.scss'
 
 const ShoppingCartPopup = () => {

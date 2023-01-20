@@ -1,7 +1,6 @@
 import {FC, ReactNode} from "react"
 import Header from "../header"
 import Footer from "../footer"
-
 import './style.scss'
 
 interface LayoutProps {

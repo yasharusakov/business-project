@@ -4,7 +4,6 @@ import CategoryPageProducts from "../../components/categoryPageProducts"
 import {doc, getDoc, getFirestore} from "firebase/firestore"
 import {ICategory} from "../../types/ICategory"
 import Loader from "../../components/ui/loader"
-
 import './style.scss'
 
 type CategoryPageParams = {
@@ -34,23 +33,18 @@ const CategoryPage = () => {
 
         getCategory()
             .then(data => {
-                if (!data) {
-                    setLoading(false)
-                    return
-                }
+                if (!data) return
                 setCategory(data)
-                setTimeout(() => {
-                    setLoading(false)
-                }, 500)
             })
-            .catch(() => {
-                setLoading(false)
-            })
+            .finally(() => setLoading(false))
     }, [categoryId])
+
+    if (loading) {
+        return <Loader/>
+    }
 
     return (
         <div className="category-page">
-            <Loader loading={loading}/>
             <div style={{paddingTop: 30, paddingBottom: 30}} className="category-page__container container">
                 <h1 className="category-page__title">{category?.title}</h1>
                 <div className="category-page__filters">

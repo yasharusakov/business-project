@@ -2,10 +2,8 @@ import {useEffect} from "react"
 import {useAppSelector} from "../../hooks/useAppSelector"
 import {useActions} from "../../hooks/useActions"
 import Logo from "../ui/logo"
-
 import shopping_cart from '../../assets/images/shopping-cart.png'
 import categories from '../../assets/images/categories.png'
-
 import './style.scss'
 
 const Header = () => {

@@ -19,13 +19,15 @@
     background: white;
     overflow: hidden;
     border-radius: 10px;
-    &.ShoppingCart, &.CategoriesPopup {
+    &.ShoppingCart, &.CategoriesPopup, &.CreateCategoryPopup {
       width: clamp(300px, 90%, 600px);
       height: clamp(300px, 90%, 600px);
     }
   }
   &__control-panel {
+    background: white;
     padding: 15px 30px;
+    color: black;
     height: 60px;
     display: flex;
     justify-content: space-between;

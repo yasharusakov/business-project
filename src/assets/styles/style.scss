@@ -1,3 +1,4 @@
+@import "cards";
 @import "fonts";
 
 *,
@@ -123,5 +124,10 @@ button {
   }
   &:focus {
     box-shadow: 0 0 2px 3px #0FF;
+  }
+  &:disabled {
+    opacity: .7;
+    background: #8f8f8f;
+    cursor: not-allowed;
   }
 }

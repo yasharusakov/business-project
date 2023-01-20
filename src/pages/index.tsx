@@ -1,51 +1,62 @@
 import {useAuthState} from "../hooks/useAuthState"
-import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+
 import Layout from "../components/layout"
 import MainPage from "./mainPage"
 import CategoryPage from "./categoryPage"
 import ProductPage from "./productPage"
-import Page404 from "./page404"
+import Page404 from "./Page404"
 import ScrollToTop from "../utils/scrollToTop"
-import AdminPageLogin from "./adminPageLogin"
-import AdminPagePanel from "./adminPagePanel"
 import Loader from "../components/ui/loader"
+
+import AdminLoginPage from "./adminLoginPage"
+import AdminPanelLayout from "../components/adminPanelLayout"
+import ProtectedRoute from "../components/protectedRoute"
+import AdminCategoriesPage from "./adminCategoriesPage"
+import AdminProductsPage from "./adminProductsPage"
+import AdminProductPage from "./adminProductPage"
+import AdminCreateProductPage from "./adminCreateProductPage"
+import AdminOrdersPage from "./adminOrdersPage"
 
 const Pages = () => {
     const {userState, loading} = useAuthState()
 
-    console.log(userState)
+    const privateRoutes = [
+        {path: '/admin/panel', Component: AdminCategoriesPage, redirectPath: '/admin/login'},
+        {path: '/admin/panel/с/:categoryId', Component: AdminProductsPage, redirectPath: '/admin/login'},
+        {path: '/admin/panel/c/:categoryId/:productId', Component: AdminProductPage, redirectPath: '/admin/login'},
+        {path: '/admin/panel/c/:categoryId/create-product', Component: AdminCreateProductPage, redirectPath: '/admin/login'},
+        {path: '/admin/orders', Component: AdminOrdersPage, redirectPath: '/admin/login'}
+    ]
+
+    if (loading) {
+        return <Loader/>
+    }
 
     return (
         <BrowserRouter>
             <Layout>
-                <Loader loading={loading}/>
                 <ScrollToTop/>
-                {
-                    userState ?
-                        (
-                            <Routes>
-                                <Route path="/" element={<MainPage/>}/>
-                                <Route path="/c/:categoryId" element={<CategoryPage/>}/>
-                                <Route path="/c/:categoryId/:productId" element={<ProductPage/>}/>
-                                <Route path="/c/:categoryId/:productId/characteristics" element={<ProductPage characteristics={true}/>}/>
-                                <Route path="/admin/login" element={<Navigate to="/admin/panel" replace/>}/>
-                                <Route path="/admin/panel" element={<AdminPagePanel/>}/>
-                                <Route path="*" element={<Page404/>}/>
-                            </Routes>
+                <Routes>
+                    <Route path="/" element={<MainPage/>}/>
+                    <Route path="/c/:categoryId" element={<CategoryPage/>}/>
+                    <Route path="/c/:categoryId/:productId" element={<ProductPage/>}/>
+                    <Route path="/c/:categoryId/:productId/characteristics" element={<ProductPage characteristics={true}/>}/>
+                    <Route path="/admin/login" element={<AdminLoginPage/>}/>
+                    {privateRoutes.map(({path, redirectPath, Component}) => {
+                        return (
+                            <Route key={path} path={path} element={
+                                    <ProtectedRoute isAllowed={userState} redirectPath={redirectPath} >
+                                        <AdminPanelLayout>
+                                            <Component/>
+                                        </AdminPanelLayout>
+                                    </ProtectedRoute>
+                                }
+                            />
                         )
-                        :
-                        (
-                            <Routes>
-                                <Route path="/" element={<MainPage/>}/>
-                                <Route path="/c/:categoryId" element={<CategoryPage/>}/>
-                                <Route path="/c/:categoryId/:productId" element={<ProductPage/>}/>
-                                <Route path="/c/:categoryId/:productId/characteristics" element={<ProductPage characteristics={true}/>}/>
-                                <Route path="/admin/login" element={<AdminPageLogin/>}/>
-                                <Route path="/admin/panel" element={<Navigate to="/admin/login" replace/>}/>
-                                <Route path="*" element={<Page404/>}/>
-                            </Routes>
-                        )
-                }
+                    })}
+                    <Route path="*" element={<Page404/>}/>
+                </Routes>
             </Layout>
         </BrowserRouter>
     )

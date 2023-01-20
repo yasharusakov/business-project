@@ -1,17 +1,11 @@
-import {FC, memo} from "react"
-
 import './style.scss'
 
-interface LoaderProps {
-    loading: boolean
-}
-
-const Loader: FC<LoaderProps> = memo(({loading}) => {
+const Loader = () => {
     return (
-        <div className={`loader-container ${loading && 'loading'}`}>
+        <div className="loader-container">
             <span className="loader"></span>
         </div>
     )
-})
+}
 
 export default Loader

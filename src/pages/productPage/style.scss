@@ -127,33 +127,4 @@
             background: #20b920;
         }
     }
-    &__tabs {
-        position: sticky;
-        top: 60px;
-        margin-bottom: 15px;
-        background: #8446cf;
-        padding: 15px 0;
-        z-index: 100;
-        &__container {
-            display: flex;
-            gap: 15px;
-        }
-    }
-    &__tab {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        a {
-            @include adapProp('font-size', 14, 16);
-            color: black;
-            font-family: "Open Sans", sans-serif;
-            font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            &.active {
-                color: white;
-            }
-        }
-    }
 }

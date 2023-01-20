@@ -12,7 +12,7 @@
     min-height: 0;
     border-radius: 8px;
     overflow: hidden;
-    background: #b4b3b3;
+    background-image: linear-gradient(to top, #292256 0%, #8446cf 70%, #a871d6 100%);
     transition: .1s ease-out;
     &:hover {
       box-shadow: 0 0 10px 1px #4b4a4a;
@@ -39,7 +39,7 @@
       img {
         max-height: 100%;
         width: auto;
-        filter: drop-shadow(0 0 2px grey);
+        filter: drop-shadow(0 0 2px white);
       }
 
       @media screen and (max-width: 500px) {
@@ -48,8 +48,9 @@
     }
 
     &__text {
+      min-width: 0;
       flex: 1 1 auto;
-      background: rgb(#1d1d1d, 0.8);
+      background: #2D3A41;
       padding: 15px;
       display: flex;
       flex-direction: column;
@@ -59,12 +60,41 @@
       gap: 15px;
       text-align: center;
 
+      &.admin {
+        min-width: 0;
+        flex-direction: row;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      &__icons {
+        display: flex;
+        gap: 10px;
+        > div {
+          transition: .3s ease;
+          background: white;
+          padding: 5px;
+          border-radius: 8px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          img {
+            max-width: 24px;
+            max-height: 24px;
+          }
+        }
+      }
+
       &__title {
         &.category {
           color: white;
-          margin-top: 5px;
           font-size: 18px;
           font-weight: 600;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
 
         &.product {
@@ -82,6 +112,7 @@
         font-size: 16px;
         font-weight: 600;
       }
+
     }
   }
 }

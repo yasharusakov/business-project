@@ -1,7 +1,4 @@
-import {useState} from "react"
-import Loader from "../../components/ui/loader"
 import MainPageCategories from "../../components/mainPageCategories"
-
 import wallet from '../../assets/images/wallet.png'
 import delivery from '../../assets/images/delivery.png'
 import warranty from '../../assets/images/warranty.png'
@@ -10,16 +7,12 @@ import powerbank2 from '../../assets/images/powerbank2.png'
 import powerbank3 from '../../assets/images/powerbank3.png'
 import powerbank4 from '../../assets/images/powerbank4.png'
 import powerbank5 from '../../assets/images/powerbank5.png'
-
 import './style.scss'
 
 const MainPage = () => {
 
-    const [loading, setLoading] = useState<boolean>(true)
-
     return (
         <div className="main-page">
-            <Loader loading={loading}/>
             <div className="main-page__container">
                 <div className="main-page__powerbanks">
                     <div className="main-page__powerbanks__container container">
@@ -75,7 +68,7 @@ const MainPage = () => {
                     <div className="main-page__categories-title">
                         Категорії товарів
                     </div>
-                    <MainPageCategories setLoading={setLoading} />
+                    <MainPageCategories/>
                 </div>
             </div>
         </div>

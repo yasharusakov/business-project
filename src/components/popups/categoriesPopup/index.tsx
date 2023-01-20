@@ -3,7 +3,6 @@ import {ICategory} from "../../../types/ICategory"
 import {useActions} from "../../../hooks/useActions"
 import {Link} from "react-router-dom"
 import FirebaseService from "../../../services/firebaseService"
-
 import './style.scss'
 
 const CategoriesPopup = () => {
