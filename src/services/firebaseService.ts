@@ -1,4 +1,4 @@
-import {getFirestore, collection, getDocs, doc, getDoc, deleteDoc, setDoc, serverTimestamp, onSnapshot} from "firebase/firestore"
+import {getFirestore, collection, getDocs, doc, getDoc, updateDoc, deleteDoc, setDoc, serverTimestamp, onSnapshot} from "firebase/firestore"
 import {uploadBytes, getDownloadURL, ref, getStorage, deleteObject} from 'firebase/storage'
 import {ICategory} from "../types/ICategory"
 import {IProduct} from "../types/IProduct"
@@ -110,6 +110,26 @@ class FirebaseService {
                 title: categoryTitle,
                 timestamp: serverTimestamp()
             })
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    async editCategory(url: string, categoryId: string, categoryTitle: string) {
+        try {
+            const db = getFirestore()
+            const docRef = doc(db, 'categories', categoryId)
+
+            if (!url) {
+                await updateDoc(docRef, {
+                    title: categoryTitle
+                })
+            } else {
+                await updateDoc(docRef, {
+                    url: url,
+                    title: categoryTitle
+                })
+            }
         } catch (err) {
             console.log(err)
         }

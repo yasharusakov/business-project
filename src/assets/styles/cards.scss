@@ -63,16 +63,12 @@
       &.admin {
         min-width: 0;
         flex-direction: row;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
       }
 
       &__icons {
         display: flex;
         gap: 10px;
         > div {
-          transition: .3s ease;
           background: white;
           padding: 5px;
           border-radius: 8px;

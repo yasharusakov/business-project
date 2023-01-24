@@ -19,7 +19,7 @@ const Popup: FC<IPopup> = memo(({title, name, render}) => {
 		<div className={`popup ${name} ${popup ? 'show' : 'hide'}`}>
 			<div onClick={(e: MouseEvent<HTMLDivElement>) => {
 				if ((e.target as Element).classList.contains('popup__container')) {
-					setPopup({name: name, type: false})
+					setPopup({name: name, type: false, data: null})
 				}
 			}} className={`popup__container ${name}`}>
 				<div className={`popup__content ${name}`}>

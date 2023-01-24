@@ -3,7 +3,7 @@ import drag_and_drop from '../../../assets/images/drag-and-drop.png'
 import './style.scss'
 
 interface UploadProps {
-    setFile: { (file: File): void }
+    setFile: { (file: File | null): void }
     setUrl: { (url: string): void }
     file: File | null
 }

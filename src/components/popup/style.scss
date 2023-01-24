@@ -19,10 +19,8 @@
     background: white;
     overflow: hidden;
     border-radius: 10px;
-    &.ShoppingCart, &.CategoriesPopup, &.CreateCategoryPopup {
-      width: clamp(300px, 90%, 600px);
-      height: clamp(300px, 90%, 600px);
-    }
+    width: clamp(300px, 90%, 600px);
+    height: clamp(300px, 90%, 600px);
   }
   &__control-panel {
     background: white;

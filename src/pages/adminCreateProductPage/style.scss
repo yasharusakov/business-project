@@ -1,0 +1,80 @@
+.admin-create-product-page {
+    &__container {
+        display: flex;
+        gap: 30px;
+    }
+
+    &__column {
+        &_2 {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+    }
+
+    &__picture {
+        border: 1px dashed #079BCF;
+        position: relative;
+        flex: 0 0 350px;
+        padding: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 350px;
+        img {
+            width: auto;
+            max-height: 100%;
+        }
+    }
+
+    &__delete-photo {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        cursor: pointer;
+        transition: .3s ease;
+        font-size: 20px;
+        font-weight: 900;
+        color: red;
+        &:hover {
+            color: black;
+        }
+    }
+
+    &__inputs {
+        border: 2px dashed #079BCF;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        input {
+            transition: .3s ease;
+            border: 2px solid #079BCF;
+            padding: 15px;
+            border-radius: 8px;
+            &:focus {
+                box-shadow: 0 0 4px #1ABC9C;
+            }
+        }
+    }
+    &__characteristics {
+        text-align: center;
+        padding: 20px;
+        border: 2px dashed #1ABC9C;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+       &__title {
+           color: #1ABC9C;
+           font-weight: 600;
+           font-size: 18px;
+       }
+        &__button {
+            background: #1ABC9C;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    }
+}
