@@ -3,6 +3,7 @@ import {useEffect, useState} from "react"
 import {IProduct} from "../../types/IProduct"
 import FirebaseService from "../../services/firebaseService"
 import './style.scss'
+import Loader from "../../components/ui/loader";
 
 type ProductsParams = {
     categoryId: string
@@ -11,20 +12,28 @@ type ProductsParams = {
 const AdminProductsPage = () => {
     const {categoryId} = useParams<ProductsParams>()
     const [products, setProducts] = useState<IProduct[]>([])
+    const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
         if (!categoryId) return
 
-        const unsub = FirebaseService.listenData(setProducts, `/categories/${categoryId}/items`)
-
-        if (!unsub) return
-
-        return () => unsub()
+        FirebaseService.getProducts(categoryId)
+            .then((data) => {
+                if (!data) return
+                setProducts(data)
+            })
+            .finally(() => setLoading(false))
     }, [categoryId])
 
+    if (loading) {
+        return <Loader/>
+    }
+
     return (
-        <div className="admin-panel__products">
-            <Link to={`/admin/panel/c/${categoryId}/create-product`} className="admin-panel__create-product">Створити продукт</Link>
+        <div className="admin-products-page">
+            <button className="admin-products-page__create-product">
+                <Link to={`/admin/panel/c/${categoryId}/create-product`}>Створити продукт</Link>
+            </button>
         </div>
     )
 }

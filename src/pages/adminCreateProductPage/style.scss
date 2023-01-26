@@ -1,26 +1,75 @@
 .admin-create-product-page {
-    &__container {
+    form {
+        width: 100%;
         display: flex;
-        gap: 30px;
+        flex-direction: column;
+        gap: 15px;
+        > button {
+            width: 100%;
+            background: #079BCF;
+            color: white;
+            padding: 15px;
+            cursor: pointer;
+        }
+    }
+    &__container {
+        height: calc(100vh - 210px);
+        display: flex;
+        gap: 15px;
+        @media screen and (max-width: 950px){
+            flex-direction: column;
+            height: 100%;
+        }
+    }
+
+    &__submit {
+        width: 100%;
+        background: #079BCF;
+        color: white;
+        padding: 10px 15px;
+        cursor: pointer;
+        font-weight: 600;
     }
 
     &__column {
-        &_2 {
+        width: 100%;
+        &_1 {
+            flex: 0 0 500px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
+        }
+        &_2 {
+            flex: 1 1 100%;
+        }
+    }
+
+    &__inputs {
+        display: flex;
+        gap: 15px;
+        input {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 50%;
+            transition: .3s ease;
+            border: 2px solid #079BCF;
+            padding: 15px;
+            &:focus {
+                box-shadow: 0 0 4px #1ABC9C;
+            }
         }
     }
 
     &__picture {
-        border: 1px dashed #079BCF;
+        overflow: hidden;
+        height: 100%;
+        border: 2px solid #079BCF;
         position: relative;
-        flex: 0 0 350px;
         padding: 25px;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 350px;
         img {
             width: auto;
             max-height: 100%;
@@ -40,41 +89,32 @@
             color: black;
         }
     }
-
-    &__inputs {
-        border: 2px dashed #079BCF;
-        padding: 20px;
+    &__characteristics {
+        height: 100%;
         display: flex;
         flex-direction: column;
         gap: 15px;
-        input {
-            transition: .3s ease;
+        &__title {
             border: 2px solid #079BCF;
-            padding: 15px;
-            border-radius: 8px;
-            &:focus {
-                box-shadow: 0 0 4px #1ABC9C;
-            }
+            font-family: "Russo One", sans-serif;
+            font-size: 28px;
+            flex: 0 0 58px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-    }
-    &__characteristics {
-        text-align: center;
-        padding: 20px;
-        border: 2px dashed #1ABC9C;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-       &__title {
-           color: #1ABC9C;
-           font-weight: 600;
-           font-size: 18px;
-       }
-        &__button {
-            background: #1ABC9C;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 8px;
-            cursor: pointer;
+        textarea {
+            height: 100%;
+            font-family: "Open Sans", sans-serif;
+            padding: 15px;
+            border: 2px solid #079BCF;
+            overflow: auto;
+            min-height: 300px;
+            resize: none;
+        }
+
+        @media screen and (max-width: 950px){
+            height: inherit;
         }
     }
 }

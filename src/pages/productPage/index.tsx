@@ -8,6 +8,7 @@ import {IProductCharacteristic} from "../../types/IProductCharacteristic"
 import Loader from "../../components/ui/loader"
 import FirebaseService from "../../services/firebaseService"
 import Tabs from "../../components/ui/tabs"
+import LazyImage from "../../components/lazyImage"
 import './style.scss'
 
 type ProductPageParams = {
@@ -56,7 +57,7 @@ const ProductPage: FC<ProductPageProps> = ({characteristics}) => {
                     {(characteristics && productCharacteristics.length > 0) && <ProductPageCharacteristics productCharacteristics={productCharacteristics}/>}
                     <div className={`product-page__column ${characteristics ? 'characteristics' : ''}`}>
                         <div className={`product-page__picture ${characteristics ? 'characteristics' : ''}`}>
-                            <img src={product?.url} alt={product?.title}/>
+                            <LazyImage url={product.url} alt={product.title}/>
                         </div>
                         <div className="product-page__additional-data">
                             <h1 className="product-page__product-title">

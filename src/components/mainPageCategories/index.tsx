@@ -2,6 +2,7 @@ import {useEffect, useState} from "react"
 import {Link} from "react-router-dom"
 import {ICategory} from "../../types/ICategory"
 import FirebaseService from '../../services/firebaseService'
+import LazyImage from "../lazyImage"
 import '../../assets/styles/cards.scss'
 
 const MainPageCategories = () => {
@@ -23,7 +24,7 @@ const MainPageCategories = () => {
                         <Link key={category.id} to={`/c/${category.id}`} className="cards__card">
                             <div className="cards__card__container">
                                 <div className="cards__card__picture">
-                                    <img src={category.url} alt={category.title}/>
+                                    <LazyImage url={category.url} alt={category.title}/>
                                 </div>
                                 <div className="cards__card__text">
                                     <div className="cards__card__text__title category">{category.title}</div>

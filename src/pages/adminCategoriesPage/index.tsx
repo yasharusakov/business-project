@@ -7,8 +7,9 @@ import delete_icon from "../../assets/images/delete.png"
 import edit_icon from "../../assets/images/pencil.png"
 import Popup from "../../components/popup"
 import CreateCategoryPopup from "../../components/popups/createCategoryPopup"
+import {Link} from "react-router-dom"
+import LazyImage from "../../components/lazyImage"
 import './style.scss'
-import {Link} from "react-router-dom";
 
 const AdminCategoriesPage = () => {
     const {setPopup} = useActions()
@@ -44,16 +45,16 @@ const AdminCategoriesPage = () => {
                             <div key={category.id} className="cards__card">
                                 <div className="cards__card__container">
                                     <Link to={`/admin/panel/с/${category.id}`} className="cards__card__picture">
-                                        <img src={category.url} alt={category.title}/>
+                                        <LazyImage url={category.url} alt={category.title}/>
                                     </Link>
                                     <div className="cards__card__text admin">
                                         <div className="cards__card__text__title category">{category.title}</div>
                                         <div className="cards__card__text__icons">
                                             <div onClick={() => setPopup({name: 'CreateCategoryPopup', type: true, data: category})} className="edit_icon">
-                                                <img width={24} height={24} src={edit_icon} alt="edit"/>
+                                                <LazyImage url={edit_icon} alt="edit_icon" style={{width: 24, height: 24}}/>
                                             </div>
                                             <div onClick={() => deleteCategory(category.id, category.title)} className="delete_icon">
-                                                <img width={24} height={24} src={delete_icon} alt="delete"/>
+                                                <LazyImage url={delete_icon} alt="delete_icon" style={{width: 24, height: 24}}/>
                                             </div>
                                         </div>
                                     </div>
