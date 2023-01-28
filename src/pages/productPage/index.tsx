@@ -8,7 +8,6 @@ import {IProductCharacteristic} from "../../types/IProductCharacteristic"
 import Loader from "../../components/ui/loader"
 import FirebaseService from "../../services/firebaseService"
 import Tabs from "../../components/ui/tabs"
-import LazyImage from "../../components/lazyImage"
 import './style.scss'
 
 type ProductPageParams = {
@@ -23,7 +22,6 @@ interface ProductPageProps {
 const ProductPage: FC<ProductPageProps> = ({characteristics}) => {
     const {categoryId, productId} = useParams<ProductPageParams>()
     const [product, setProduct] = useState<IProduct>({} as IProduct)
-    const [productCharacteristics, setProductCharacteristics] = useState<IProductCharacteristic[]>([])
     const products = useAppSelector(state => state.shoppingCart.products)
     const {addToCart, setPopup} = useActions()
     const [loading, setLoading] = useState<boolean>(true)
@@ -34,8 +32,7 @@ const ProductPage: FC<ProductPageProps> = ({characteristics}) => {
         FirebaseService.getProduct(categoryId, productId)
             .then(data => {
                 if (!data) return
-                setProduct(data.product)
-                setProductCharacteristics(data.characteristics)
+                setProduct(data)
             })
             .finally(() => setLoading(false))
     }, [categoryId, productId])
@@ -49,26 +46,33 @@ const ProductPage: FC<ProductPageProps> = ({characteristics}) => {
         {to: `/c/${categoryId}/${productId}/characteristics`, value: 'Характеристики'}
     ]
 
+    const transformedCharacteristics = product.characteristics
+        .split('/')
+        .map(item => {
+            const data = item.split('+++')
+            return {title: data[0], value: data[1]}
+        }) as IProductCharacteristic[]
+
     return (
         <div className="product-page">
             <Tabs tabs={tabs}/>
             <div className="product-page__container container">
                 <div className="product-page__row">
-                    {(characteristics && productCharacteristics.length > 0) && <ProductPageCharacteristics productCharacteristics={productCharacteristics}/>}
+                    {(characteristics && product.characteristics) && <ProductPageCharacteristics productCharacteristics={transformedCharacteristics}/>}
                     <div className={`product-page__column ${characteristics ? 'characteristics' : ''}`}>
                         <div className={`product-page__picture ${characteristics ? 'characteristics' : ''}`}>
-                            <LazyImage url={product.url} alt={product.title}/>
+                            <img src={product.url} alt={product.title}/>
                         </div>
                         <div className="product-page__additional-data">
                             <h1 className="product-page__product-title">
                                 {product?.title}
                             </h1>
-                            {(!characteristics && productCharacteristics.length > 0) && (
+                            {(!characteristics && product.characteristics) && (
                                 <p className="product-page__product-characteristics">
-                                    {productCharacteristics.map((characteristic, index) => {
+                                    {transformedCharacteristics.map((characteristic, index) => {
                                         return (
-                                            <Fragment key={characteristic.id}>
-                                                {index === productCharacteristics.length - 1 ? (
+                                            <Fragment key={index}>
+                                                {index === transformedCharacteristics.length - 1 ? (
                                                     <>
                                                         {characteristic.title} {characteristic.value}
                                                     </>

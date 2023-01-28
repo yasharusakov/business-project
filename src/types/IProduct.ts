@@ -4,4 +4,5 @@ export interface IProduct {
     title: string
     price: number
     orders: number
+    characteristics: string
 }

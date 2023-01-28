@@ -1,7 +1,6 @@
 import {FC, memo, useEffect, useMemo, useState} from "react"
 import {IProduct} from "../../types/IProduct"
 import FirebaseService from "../../services/firebaseService"
-import LazyImage from "../lazyImage"
 import {Link} from "react-router-dom"
 
 interface CategoryPageProducts {
@@ -45,7 +44,7 @@ const CategoryPageProducts: FC<CategoryPageProducts> = memo(({filterBy, category
                         <Link key={product.id} to={`/c/${categoryId}/${product.id}`} tabIndex={0} className="cards__card">
                             <div className="cards__card__container">
                                 <div className="cards__card__picture">
-                                    <LazyImage url={product.url} alt={product.title}/>
+                                    <img src={product.url} alt={product.title}/>
                                 </div>
                                 <div className="cards__card__text">
                                     <div className="cards__card__text__title product">{product.title}</div>

@@ -7,7 +7,6 @@ import powerbank2 from '../../assets/images/powerbank2.png'
 import powerbank3 from '../../assets/images/powerbank3.png'
 import powerbank4 from '../../assets/images/powerbank4.png'
 import powerbank5 from '../../assets/images/powerbank5.png'
-import LazyImage from "../../components/lazyImage"
 import './style.scss'
 
 const MainPage = () => {
@@ -38,8 +37,8 @@ const MainPage = () => {
                             {powerbanks.map((item, index) => {
                                 return (
                                     <div key={index} className="main-page__item">
-                                        <LazyImage
-                                            url={item.url}
+                                        <img
+                                            src={item.url}
                                             alt="powerbank"
                                         />
                                     </div>
@@ -54,8 +53,8 @@ const MainPage = () => {
                             return (
                                 <div key={index} className="main-page__about-products-item">
                                     <div className="main-page__about-products-picture">
-                                        <LazyImage
-                                            url={item.url}
+                                        <img
+                                            src={item.url}
                                             alt={item.title}
                                             style={{width: 64, height: 64}}
                                         />

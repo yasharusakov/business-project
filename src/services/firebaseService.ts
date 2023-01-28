@@ -2,7 +2,7 @@ import {getFirestore, collection, getDocs, doc, getDoc, updateDoc, deleteDoc, se
 import {uploadBytes, getDownloadURL, ref, getStorage, deleteObject} from 'firebase/storage'
 import {ICategory} from "../types/ICategory"
 import {IProduct} from "../types/IProduct"
-import {IProductCharacteristic} from "../types/IProductCharacteristic"
+import {IProductInCart} from "../types/IProductInCart"
 
 class FirebaseService {
 
@@ -67,14 +67,7 @@ class FirebaseService {
             const docSnapshot = await getDoc(docRef)
             const docData = docSnapshot.data() as IProduct
 
-            const docRef2 = collection(db, `/categories/${categoryId}/items/${productId}/characteristics`)
-            const docsSnapshot2 = await getDocs(docRef2)
-            const docsData2 = docsSnapshot2.docs.map(doc => ({...doc.data(), id: doc.id} as IProductCharacteristic))
-
-            return {
-                product: docData,
-                characteristics: docsData2
-            }
+            return docData
         } catch (err) {
             console.log(err)
         }
@@ -133,6 +126,41 @@ class FirebaseService {
         } catch (err) {
             console.log(err)
         }
+    }
+
+
+    async createProduct(categoryId: string, id: string, url: string, title: string, price: number, characteristics: string) {
+        const db = getFirestore()
+        const docRef = doc(db, `categories/${categoryId}/items`, id)
+        await setDoc(docRef, {
+            url: url,
+            title: title,
+            price: +price,
+            characteristics: characteristics,
+            orders: 0,
+            timestamp: serverTimestamp()
+        })
+    }
+
+    async createOrder(firstName: string, lastName: string, phoneNumber: string, products: IProductInCart[]) {
+        const db = getFirestore()
+
+        const id = doc(collection(getFirestore(), '/id')).id
+
+        const docRef = doc(db, 'orders', id)
+
+        await setDoc(docRef, {
+            firstName: firstName,
+            lastName: lastName,
+            phoneNumber: phoneNumber,
+            products: products,
+            timestamp: serverTimestamp()
+        })
+    }
+
+    async getOrders(setData: { (data: any): void }) {
+        const unsub = this.listenData(setData, 'orders')
+        return unsub
     }
 }
 

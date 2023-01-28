@@ -14,7 +14,6 @@ import AdminPanelLayout from "../components/adminPanelLayout"
 import ProtectedRoute from "../components/protectedRoute"
 import AdminCategoriesPage from "./adminCategoriesPage"
 import AdminProductsPage from "./adminProductsPage"
-import AdminProductPage from "./adminProductPage"
 import AdminCreateProductPage from "./adminCreateProductPage"
 import AdminOrdersPage from "./adminOrdersPage"
 
@@ -24,7 +23,6 @@ const Pages = () => {
     const privateRoutes = [
         {path: '/admin/panel', Component: AdminCategoriesPage, redirectPath: '/admin/login'},
         {path: '/admin/panel/с/:categoryId', Component: AdminProductsPage, redirectPath: '/admin/login'},
-        {path: '/admin/panel/c/:categoryId/:productId', Component: AdminProductPage, redirectPath: '/admin/login'},
         {path: '/admin/panel/c/:categoryId/create-product', Component: AdminCreateProductPage, redirectPath: '/admin/login'},
         {path: '/admin/orders', Component: AdminOrdersPage, redirectPath: '/admin/login'}
     ]
