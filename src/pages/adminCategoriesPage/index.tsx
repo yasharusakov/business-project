@@ -16,8 +16,7 @@ const AdminCategoriesPage = () => {
     const [categories, setCategories] = useState<ICategory[]>([])
 
     const deleteCategory = (id: string, title: string) => {
-        FirebaseService.deleteCategory(id, title)
-            .then(() => FirebaseService.deleteMedia(id))
+        FirebaseService.deleteData({categoryId: id, name: title})
     }
 
     useEffect(() => {

@@ -1,5 +1,5 @@
 import {getFirestore, collection, getDocs, doc, getDoc, updateDoc, deleteDoc, setDoc, serverTimestamp, onSnapshot} from "firebase/firestore"
-import {uploadBytes, getDownloadURL, ref, getStorage, deleteObject} from 'firebase/storage'
+import {uploadBytes, getDownloadURL, ref, getStorage, deleteObject, listAll} from 'firebase/storage'
 import {ICategory} from "../types/ICategory"
 import {IProduct} from "../types/IProduct"
 import {IProductInCart} from "../types/IProductInCart"
@@ -32,16 +32,34 @@ class FirebaseService {
         }
     }
 
-    async deleteCategory(categoryId: string, categoryName: string) {
+    async deleteData({categoryId, productId, name}: {categoryId: string, productId?: string, name: string}) {
         try {
+            const db = getFirestore()
+            const storage = getStorage()
+            const storageRef = productId ? ref(storage, `/categories/${categoryId}/pictures/${productId}`) : ref(storage, `/categories/${categoryId}/picture`)
+            const docRef = productId ? doc(db, `/categories/${categoryId}/items/${productId}`) : doc(db, `/categories/${categoryId}`)
 
-            const confirmDelete = window.confirm(`Ви дійсно хочете видалити категорію ${categoryName}?`)
+            const confirmDelete = window.confirm(`Ви дійсно хочете видалити ${name}?`)
 
-            if (confirmDelete && categoryId) {
-                const db = getFirestore()
-                const docRef = doc(db, `/categories/${categoryId}`)
-
-                await deleteDoc(docRef)
+            if (productId) {
+                if (confirmDelete && categoryId && productId) {
+                    await deleteDoc(docRef)
+                    await deleteObject(storageRef)
+                }
+            } else {
+                if (confirmDelete && categoryId) {
+                    const list = ref(storage, `/categories/${categoryId}/pictures`)
+                    await deleteDoc(docRef)
+                    await listAll(list)
+                        .then(async list => {
+                            for (const ref of list.items) {
+                                await deleteObject(ref)
+                            }
+                        })
+                        .then(async () => {
+                            await deleteObject(storageRef)
+                        })
+                }
             }
         } catch (err) {
             console.log(err)
@@ -73,10 +91,10 @@ class FirebaseService {
         }
     }
 
-    async upload(file: File, categoryId: string) {
+    async upload({name, file, categoryId, productId}: {name: 'category' | 'product', file: File, categoryId?: string, productId?: string}) {
         try {
             const storage = getStorage()
-            const storageRef = ref(storage, `categories/${categoryId}/picture`)
+            const storageRef = name === 'category' ? ref(storage, `categories/${categoryId}/picture`) : ref(storage, `categories/${categoryId}/pictures/${productId}`)
             await uploadBytes(storageRef, file)
             return await getDownloadURL(storageRef)
         } catch (err) {
@@ -84,44 +102,42 @@ class FirebaseService {
         }
     }
 
-    async deleteMedia(categoryId: string) {
+    async createCategory(categoryTitle: string, file: File) {
         try {
-            const storage = getStorage()
-            const storageRef = ref(storage, `categories/${categoryId}/picture`)
-            await deleteObject(storageRef)
+            const db = getFirestore()
+            const id = doc(collection(db, '/id')).id
+            const docRef = doc(db, 'categories', id)
+
+            await this.upload({name: 'category', categoryId: id, file})
+                .then(async url => {
+                    await setDoc(docRef, {
+                        url: url,
+                        title: categoryTitle,
+                        timestamp: serverTimestamp()
+                    })
+                })
         } catch (err) {
             console.log(err)
         }
     }
 
-    async createCategory(url: string, categoryId: string, categoryTitle: string) {
-        try {
-            const db = getFirestore()
-            const docRef = doc(db, 'categories', categoryId)
-            await setDoc(docRef, {
-                url: url,
-                title: categoryTitle,
-                timestamp: serverTimestamp()
-            })
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
-    async editCategory(url: string, categoryId: string, categoryTitle: string) {
+    async editCategory({file, categoryId, categoryTitle}: {file: File | null, categoryId: string, categoryTitle: string}) {
         try {
             const db = getFirestore()
             const docRef = doc(db, 'categories', categoryId)
 
-            if (!url) {
+            if (!file) {
                 await updateDoc(docRef, {
                     title: categoryTitle
                 })
             } else {
-                await updateDoc(docRef, {
-                    url: url,
-                    title: categoryTitle
-                })
+                await this.upload({name: 'category', file, categoryId})
+                    .then(async url => {
+                        await updateDoc(docRef, {
+                            url: url,
+                            title: categoryTitle
+                        })
+                    })
             }
         } catch (err) {
             console.log(err)
@@ -140,6 +156,33 @@ class FirebaseService {
             orders: 0,
             timestamp: serverTimestamp()
         })
+    }
+
+    async editProduct({file, categoryId, productId, title, price, characteristics}: {file: File | null, categoryId: string, productId: string, title: string, price: number, characteristics: string}) {
+        try {
+            const db = getFirestore()
+            const docRef = doc(db, `categories/${categoryId}/items`, productId)
+
+            if (!file) {
+                await updateDoc(docRef, {
+                    title: title,
+                    price: price,
+                    characteristics: characteristics
+                })
+            } else {
+                await this.upload({name: 'category', file, categoryId})
+                    .then(async url => {
+                        await updateDoc(docRef, {
+                            url: url,
+                            title: title,
+                            price: price,
+                            characteristics: characteristics
+                        })
+                    })
+            }
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     async createOrder(firstName: string, lastName: string, phoneNumber: string, products: IProductInCart[]) {

@@ -27,6 +27,11 @@ const AdminProductsPage = () => {
             .finally(() => setLoading(false))
     }, [categoryId])
 
+    const deleteProduct = (productId: string, name: string) => {
+        if (!categoryId || !productId) return
+        FirebaseService.deleteData({categoryId, productId, name})
+    }
+
     if (loading) {
         return <Loader/>
     }
@@ -48,10 +53,10 @@ const AdminProductsPage = () => {
                                     <div className="cards__card__text admin">
                                         <div className="cards__card__text__title category">{product.title}</div>
                                         <div className="cards__card__text__icons">
-                                            <div className="edit_icon">
+                                            <Link to={`/admin/panel/c/${categoryId}/edit-product/${product.id}`} className="edit_icon">
                                                 <img src={edit_icon} alt="edit_icon" style={{width: 24, height: 24}}/>
-                                            </div>
-                                            <div className="delete_icon">
+                                            </Link>
+                                            <div onClick={() => deleteProduct(product.id, product.title)} className="delete_icon">
                                                 <img src={delete_icon} alt="delete_icon" style={{width: 24, height: 24}}/>
                                             </div>
                                         </div>

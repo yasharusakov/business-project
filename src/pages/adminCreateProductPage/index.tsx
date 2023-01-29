@@ -1,6 +1,6 @@
 import FirebaseService from "../../services/firebaseService"
 import Upload from "../../components/ui/upload"
-import {FormEvent, useState} from "react"
+import {FormEvent, useEffect, useState} from "react"
 import {collection, doc, getFirestore} from "firebase/firestore"
 import {useParams} from "react-router-dom"
 import Loader from "../../components/ui/loader"
@@ -8,10 +8,11 @@ import './style.scss'
 
 type AdminCreateProductPageParams = {
     categoryId: string
+    productId?: string
 }
 
 const AdminCreateProductPage = () => {
-    const {categoryId} = useParams<AdminCreateProductPageParams>()
+    const {categoryId, productId} = useParams<AdminCreateProductPageParams>()
     const [loading, setLoading] = useState<boolean>(false)
 
     const [file, setFile] = useState<File | null>(null)
@@ -22,6 +23,21 @@ const AdminCreateProductPage = () => {
 
     const [characteristics, setCharacteristics] = useState<string>('')
 
+    useEffect(() => {
+        if (!categoryId || !productId) return
+
+        FirebaseService.getProduct(categoryId, productId)
+            .then(data => {
+                if (!data) return
+                setUrl(data.url)
+                setTitle(data.title)
+                setPrice(data.price)
+                setCharacteristics(data.characteristics)
+            })
+
+
+    }, [categoryId, productId])
+
     const deletePhoto = () => {
         setFile(null)
         setUrl('')
@@ -31,14 +47,31 @@ const AdminCreateProductPage = () => {
         e.preventDefault()
         setLoading(true)
 
-        const id = doc(collection(getFirestore(), '/id')).id
+        const productId = doc(collection(getFirestore(), '/id')).id
 
-        if (categoryId && id && file) {
-            FirebaseService.upload(file, id)
+        if (categoryId && productId && file) {
+            FirebaseService.upload({name: 'product', file, categoryId, productId})
                 .then((urlData) => {
                     if (!urlData) return
-                    FirebaseService.createProduct(categoryId, id, urlData, title, price!, characteristics)
+                    FirebaseService.createProduct(categoryId, productId, urlData, title, price!, characteristics)
                 })
+                .finally(() => {
+                    setLoading(false)
+                })
+        } else {
+            setLoading(false)
+        }
+
+    }
+
+    const onHandleSubmitEdit = (e: FormEvent) => {
+        e.preventDefault()
+
+        setLoading(true)
+
+        if (categoryId && productId && price) {
+            const data = (url && !file) ? null : file
+            FirebaseService.editProduct({file: data, categoryId, productId, title, price, characteristics})
                 .finally(() => {
                     setLoading(false)
                 })
@@ -50,7 +83,7 @@ const AdminCreateProductPage = () => {
 
     return (
         <div className="admin-create-product-page">
-            <form onSubmit={onHandleSubmit}>
+            <form onSubmit={productId ? onHandleSubmitEdit : onHandleSubmit}>
                 <div className="admin-create-product-page__container">
                     <div className="admin-create-product-page__column admin-create-product-page__column_1">
                         <div className="admin-create-product-page__inputs">

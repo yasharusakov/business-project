@@ -1,7 +1,6 @@
 import {FormEvent, useEffect, useState} from "react"
 import Upload from "../../ui/upload"
 import FirebaseService from "../../../services/firebaseService"
-import {collection, doc, getFirestore} from "firebase/firestore"
 import Loader from "../../ui/loader"
 import {useActions} from "../../../hooks/useActions"
 import {useAppSelector} from "../../../hooks/useAppSelector"
@@ -15,18 +14,12 @@ const CreateCategoryPopup = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const [categoryName, setCategoryName] = useState<string>('')
 
-    const onSubmitHandler = async (e: FormEvent) => {
+    const onSubmitHandler = (e: FormEvent) => {
         e.preventDefault()
         setLoading(true)
 
-        const id = doc(collection(getFirestore(), '/id')).id
-
-        if (categoryName && id && file) {
-            FirebaseService.upload(file, id)
-                .then((url) => {
-                    if (!url) return
-                    FirebaseService.createCategory(url, id, categoryName)
-                })
+        if (categoryName && file) {
+            FirebaseService.createCategory(categoryName, file)
                 .finally(() => {
                     setLoading(false)
                     setPopup({name: 'CreateCategoryPopup', type: false, data: null})
@@ -40,25 +33,14 @@ const CreateCategoryPopup = () => {
         e.preventDefault()
         setLoading(true)
 
-        const id = data.id
+        const categoryId = data.id
 
-        if (categoryName && id && url) {
-            if (data.url === url) {
-                FirebaseService.editCategory('', id, categoryName)
-                    .finally(() => {
-                        setLoading(false)
-                        setPopup({name: 'CreateCategoryPopup', type: false, data: null})
-                    })
-            } else {
-                FirebaseService.upload(file!, id)
-                    .then((url) => {
-                        FirebaseService.editCategory(url!, id, categoryName)
-                    })
-                    .finally(() => {
-                        setLoading(false)
-                        setPopup({name: 'CreateCategoryPopup', type: false, data: null})
-                    })
-            }
+        if (categoryName && categoryId && url) {
+            FirebaseService.editCategory({file: data.url === url ? null : file, categoryId, categoryTitle: categoryName})
+                .finally(() => {
+                    setLoading(false)
+                    setPopup({name: 'CreateCategoryPopup', type: false, data: null})
+                })
         } else {
             setLoading(false)
         }

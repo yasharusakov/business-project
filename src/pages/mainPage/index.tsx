@@ -1,4 +1,4 @@
-import MainPageCategories from "../../components/mainPageCategories"
+import MainPageCategories from "./mainPageCategories"
 import wallet from '../../assets/images/wallet.png'
 import delivery from '../../assets/images/delivery.png'
 import warranty from '../../assets/images/warranty.png'

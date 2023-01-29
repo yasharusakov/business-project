@@ -24,6 +24,7 @@ const Pages = () => {
         {path: '/admin/panel', Component: AdminCategoriesPage, redirectPath: '/admin/login'},
         {path: '/admin/panel/с/:categoryId', Component: AdminProductsPage, redirectPath: '/admin/login'},
         {path: '/admin/panel/c/:categoryId/create-product', Component: AdminCreateProductPage, redirectPath: '/admin/login'},
+        {path: '/admin/panel/c/:categoryId/edit-product/:productId', Component: AdminCreateProductPage, redirectPath: '/admin/login'},
         {path: '/admin/orders', Component: AdminOrdersPage, redirectPath: '/admin/login'}
     ]
 
