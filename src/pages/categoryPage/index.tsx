@@ -14,7 +14,7 @@ const CategoryPage = () => {
     const {categoryId} = useParams<CategoryPageParams>()
     const [category, setCategory] = useState<ICategory>({} as ICategory)
     const [loading, setLoading] = useState<boolean>(true)
-    const [filterBy, setFilterBy] = useState<string>('by-popular')
+    const [filterBy, setFilterBy] = useState<string>('from-cheap-to-expensive')
     const db = getFirestore()
 
     const getCategory = async () => {
@@ -49,7 +49,6 @@ const CategoryPage = () => {
                 <h1 className="category-page__title">{category?.title}</h1>
                 <div className="category-page__filters">
                     <select onChange={(e) => setFilterBy(e.target.value)}>
-                        <option value="by-popular">За популярністю</option>
                         <option value="from-cheap-to-expensive">Від дешевих до дорогих</option>
                         <option value="from-expensive-to-cheap">Від дорогих до дешевих</option>
                     </select>

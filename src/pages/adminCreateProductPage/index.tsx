@@ -120,8 +120,8 @@ const AdminCreateProductPage = () => {
                     type="submit">
                     {
                         loading ?
-                        <Loader/> :
-                        'Створити продукт'
+                            <Loader/> :
+                            productId ? 'Редагувати продукт' : 'Створити продукт'
                     }
                 </button>
             </form>

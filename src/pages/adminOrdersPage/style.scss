@@ -1,0 +1,62 @@
+.admin-orders-page {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  &__order {
+    &__user {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      color: white;
+      font-family: "Lato", sans-serif;
+      &__full-name {
+        display: flex;
+        gap: 5px;
+        font-size: 20px;
+      }
+      &__phone-number {
+        font-weight: 600;
+        font-size: 20px;
+        letter-spacing: 1.5px;
+      }
+      &__total-price {
+        word-spacing: 5px;
+        span {
+          color: #079BCF;
+        }
+      }
+    }
+    &__products {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      &__product {
+        &__container {
+          gap: 15px;
+          display: flex;
+        }
+        &__picture {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 80px;
+          height: 80px;
+          img {
+            width: auto;
+            max-height: 100%;
+          }
+        }
+        &__data {
+          font-size: 17px;
+          span {
+            font-weight: 600;
+            color: #1ABC9C;
+          }
+        }
+      }
+    }
+  }
+}

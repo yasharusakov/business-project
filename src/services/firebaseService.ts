@@ -1,4 +1,4 @@
-import {getFirestore, collection, getDocs, doc, getDoc, updateDoc, deleteDoc, setDoc, serverTimestamp, onSnapshot} from "firebase/firestore"
+import {getFirestore, collection, getDocs, doc, getDoc, updateDoc, deleteDoc, setDoc, serverTimestamp, onSnapshot, query, orderBy} from "firebase/firestore"
 import {uploadBytes, getDownloadURL, ref, getStorage, deleteObject, listAll} from 'firebase/storage'
 import {ICategory} from "../types/ICategory"
 import {IProduct} from "../types/IProduct"
@@ -10,7 +10,8 @@ class FirebaseService {
         try {
             const db = getFirestore()
             const collectionRef = collection(db, '/categories')
-            const docsSnapshot = await getDocs(collectionRef)
+            const q = query(collectionRef, orderBy('timestamp'))
+            const docsSnapshot = await getDocs(q)
             const docsData = docsSnapshot.docs.map<ICategory>(doc => ({...doc.data(), id: doc.id} as ICategory))
             return docsData
         } catch (err) {
@@ -22,7 +23,8 @@ class FirebaseService {
         try {
             const db = getFirestore()
             const collectionRef = collection(db, path)
-            const unsub = onSnapshot(collectionRef, (querySnapshot) => {
+            const q = query(collectionRef, orderBy('timestamp'))
+            const unsub = onSnapshot(q, (querySnapshot) => {
                 const docsData = querySnapshot.docs.map<any>(doc => ({...doc.data(), id: doc.id} as any))
                 setData(docsData)
             })
@@ -70,7 +72,8 @@ class FirebaseService {
         try {
             const db = getFirestore()
             const collectionRef = collection(db, `/categories/${categoryId}/items`)
-            const docsSnapshot = await getDocs(collectionRef)
+            const q = query(collectionRef, orderBy('timestamp'))
+            const docsSnapshot = await getDocs(q)
             const docsData = docsSnapshot.docs.map<IProduct>(doc => ({...doc.data(), id: doc.id} as IProduct))
             return docsData
         } catch (err) {

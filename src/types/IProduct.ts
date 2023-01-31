@@ -3,6 +3,5 @@ export interface IProduct {
     url: string
     title: string
     price: number
-    orders: number
     characteristics: string
 }

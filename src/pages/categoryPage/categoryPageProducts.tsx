@@ -24,8 +24,6 @@ const CategoryPageProducts: FC<CategoryPageProducts> = memo(({filterBy, category
     const filteredProducts = useMemo(() => {
         return products.sort((a, b) => {
             switch (filterBy) {
-                case 'by-popular':
-                    return b.orders - a.orders
                 case 'from-cheap-to-expensive':
                     return a.price - b.price
                 case 'from-expensive-to-cheap':

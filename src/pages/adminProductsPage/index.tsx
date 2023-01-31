@@ -47,9 +47,9 @@ const AdminProductsPage = () => {
                         return (
                             <div key={product.id} className="cards__card">
                                 <div className="cards__card__container">
-                                    <Link to={`/admin/panel/с/${product.id}`} className="cards__card__picture">
+                                    <div className="cards__card__picture">
                                         <img src={product.url} alt={product.title}/>
-                                    </Link>
+                                    </div>
                                     <div className="cards__card__text admin">
                                         <div className="cards__card__text__title category">{product.title}</div>
                                         <div className="cards__card__text__icons">
