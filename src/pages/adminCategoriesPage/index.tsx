@@ -20,7 +20,7 @@ const AdminCategoriesPage = () => {
     }
 
     useEffect(() => {
-        const unsub = FirebaseService.listenData(setCategories, '/categories')
+        const unsub = FirebaseService.listenData(setCategories, '/categories', 'asc')
 
         setLoading(false)
 

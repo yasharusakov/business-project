@@ -35,10 +35,13 @@
       gap: 10px;
       &__product {
         &__container {
-          gap: 15px;
+          padding: 5px;
           display: flex;
+          gap: 15px;
+          border: 2px dashed #079BCF;
         }
         &__picture {
+          flex: 0 0 80px;
           display: flex;
           justify-content: center;
           align-items: center;

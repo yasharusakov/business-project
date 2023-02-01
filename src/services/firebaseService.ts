@@ -1,4 +1,4 @@
-import {getFirestore, collection, getDocs, doc, getDoc, updateDoc, deleteDoc, setDoc, serverTimestamp, onSnapshot, query, orderBy} from "firebase/firestore"
+import {getFirestore, collection, getDocs, doc, getDoc, updateDoc, deleteDoc, setDoc, serverTimestamp, onSnapshot, query, orderBy, OrderByDirection} from "firebase/firestore"
 import {uploadBytes, getDownloadURL, ref, getStorage, deleteObject, listAll} from 'firebase/storage'
 import {ICategory} from "../types/ICategory"
 import {IProduct} from "../types/IProduct"
@@ -19,11 +19,11 @@ class FirebaseService {
         }
     }
 
-    listenData(setData: (data: any) => void, path: string) {
+    listenData(setData: (data: any) => void, path: string, orderByValue: OrderByDirection) {
         try {
             const db = getFirestore()
             const collectionRef = collection(db, path)
-            const q = query(collectionRef, orderBy('timestamp'))
+            const q = query(collectionRef, orderBy('timestamp', orderByValue))
             const unsub = onSnapshot(q, (querySnapshot) => {
                 const docsData = querySnapshot.docs.map<any>(doc => ({...doc.data(), id: doc.id} as any))
                 setData(docsData)
@@ -205,7 +205,7 @@ class FirebaseService {
     }
 
     async getOrders(setData: { (data: any): void }) {
-        const unsub = this.listenData(setData, 'orders')
+        const unsub = this.listenData(setData, 'orders', 'desc')
         return unsub
     }
 }

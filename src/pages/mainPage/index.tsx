@@ -1,23 +1,35 @@
+import {useEffect, useState} from "react"
+import {ICategory} from "../../types/ICategory"
+import FirebaseService from "../../services/firebaseService"
 import MainPageCategories from "./mainPageCategories"
+import Loader from "../../components/ui/loader"
 import wallet from '../../assets/images/wallet.png'
 import delivery from '../../assets/images/delivery.png'
 import warranty from '../../assets/images/warranty.png'
-import powerbank1 from '../../assets/images/powerbank1.png'
-import powerbank2 from '../../assets/images/powerbank2.png'
-import powerbank3 from '../../assets/images/powerbank3.png'
-import powerbank4 from '../../assets/images/powerbank4.png'
-import powerbank5 from '../../assets/images/powerbank5.png'
+
+import {Pagination, Autoplay, Navigation} from 'swiper'
+import {Swiper, SwiperSlide} from 'swiper/react'
+import 'swiper/scss'
+import 'swiper/scss/navigation'
+import 'swiper/scss/pagination'
+import 'swiper/scss/autoplay'
+
 import './style.scss'
 
 const MainPage = () => {
+    const [loading, setLoading] = useState<boolean>(true)
+    const [categories, setCategories] = useState<ICategory[]>([])
 
-    const powerbanks = [
-        {url: powerbank4},
-        {url: powerbank1},
-        {url: powerbank3},
-        {url: powerbank2},
-        {url: powerbank5}
-    ]
+    useEffect(() => {
+        FirebaseService.getCategories()
+            .then(data => {
+                if (!data) return
+                setCategories(data)
+            })
+            .finally(() => {
+                setLoading(false)
+            })
+    }, [])
 
     const aboutItems = [
         {title: 'Оплата при отриманні', url: wallet},
@@ -25,29 +37,43 @@ const MainPage = () => {
         {title: 'Гарантія якості', url: warranty}
     ]
 
+    if (loading) {
+        return <Loader/>
+    }
+
     return (
         <div className="main-page">
             <div className="main-page__container">
-                <div className="main-page__powerbanks">
-                    <div className="main-page__powerbanks__container container">
-                        <div className="main-page__powerbanks-title">
-                            ТУТ ТИ ЗНАЙДЕШ СВІЙ ПОВЕРБАНК
-                        </div>
-                        <div className="main-page__items">
-                            {powerbanks.map((item, index) => {
-                                return (
-                                    <div key={index} className="main-page__item">
+                <Swiper
+                    className="categories-slider"
+                    loop
+                    autoplay={{delay: 3500}}
+                    modules={[Navigation, Pagination, Autoplay]}
+                    navigation
+                    spaceBetween={10}
+                    slidesPerView={1}
+                    grabCursor={true}
+                    pagination={{clickable: true}}
+                >
+                    {categories.map((category, index) => {
+                        return (
+                            <SwiperSlide className="categories-slider-slide" key={category.id}>
+                                <div className="categories-slider-slide-container">
+                                    <div className="categories-slider-slide-picture">
                                         <img
-                                            src={item.url}
-                                            alt="powerbank"
+                                            src={category.url}
+                                            alt={category.title}
                                         />
                                     </div>
-                                )
-                            })}
-                        </div>
-                    </div>
-                </div>
-                <div style={{paddingTop: 125, paddingBottom: 125}} className="main-page__info container">
+                                    <div className="categories-slider-slide-title">
+                                        <h3>{category.title}</h3>
+                                    </div>
+                                </div>
+                            </SwiperSlide>
+                        )
+                    })}
+                </Swiper>
+                <div style={{paddingTop: 50, paddingBottom: 50}} className="main-page__info container">
                     <div className="main-page__about-products-row">
                         {aboutItems.map((item, index) => {
                             return (
