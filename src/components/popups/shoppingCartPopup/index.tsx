@@ -1,4 +1,4 @@
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import {useAppSelector} from "../../../hooks/useAppSelector"
 import ShoppingCartForm from "./ShoppingCartForm"
 import Products from "./Products"

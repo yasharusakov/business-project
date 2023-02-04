@@ -7,5 +7,7 @@ export interface IOrder {
     lastName: string
     phoneNumber: string
     products: IProductInCart[]
+    address: string
+    viewed: boolean
     timestamp: Timestamp
 }

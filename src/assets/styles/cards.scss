@@ -12,7 +12,7 @@
     min-height: 0;
     border-radius: 8px;
     overflow: hidden;
-    background-image: linear-gradient(to top, #292256 0%, #8446cf 70%, #a871d6 100%);
+    background: #bebaba;
     transition: .1s ease-out;
     &:hover {
       box-shadow: 0 0 10px 1px #4b4a4a;
@@ -50,7 +50,7 @@
     &__text {
       min-width: 0;
       flex: 1 1 auto;
-      background: #2D3A41;
+      background: #1d1d1d;
       padding: 15px;
       display: flex;
       flex-direction: column;
@@ -105,7 +105,7 @@
         width: 100%;
         text-align: right;
         color: white;
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 600;
       }
 

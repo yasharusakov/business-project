@@ -27,10 +27,11 @@
                 box-shadow: 0 0 10px black;
             }
             &:focus {
-                box-shadow: 0 0 2px 3px #0FF;
+                box-shadow: 0 0 10px black;
             }
             option {
-                background: #8446cf;
+                background: #2c3e50;
+                color: white;
             }
         }
     }

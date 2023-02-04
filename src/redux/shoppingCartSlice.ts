@@ -61,6 +61,10 @@ const shoppingCartSlice = createSlice({
 
             state.products = products
             localStorage.setItem('shoppingCart', JSON.stringify(products))
+        },
+        clearCart(state) {
+            state.products = []
+            localStorage.setItem('shoppingCart', '')
         }
     }
 })
@@ -72,5 +76,6 @@ export const {
     addToCart,
     removeFromCart,
     increaseAmount,
-    decreaseAmount
+    decreaseAmount,
+    clearCart
 } = shoppingCartSlice.actions

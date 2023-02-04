@@ -3,7 +3,8 @@ import {ReactElement, ReactNode} from "react"
 export enum PopupNames {
     ShoppingCart = 'ShoppingCart',
     CategoriesPopup = 'CategoriesPopup',
-    CreateCategoryPopup = 'CreateCategoryPopup'
+    CreateCategoryPopup = 'CreateCategoryPopup',
+    SupportPopup = 'SupportPopup'
 }
 
 export type PopupState = {

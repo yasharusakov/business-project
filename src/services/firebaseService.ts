@@ -188,7 +188,7 @@ class FirebaseService {
         }
     }
 
-    async createOrder(firstName: string, lastName: string, phoneNumber: string, products: IProductInCart[]) {
+    async createOrder(firstName: string, lastName: string, phoneNumber: string, address: string, products: IProductInCart[]) {
         const db = getFirestore()
 
         const id = doc(collection(getFirestore(), '/id')).id
@@ -199,6 +199,7 @@ class FirebaseService {
             firstName: firstName,
             lastName: lastName,
             phoneNumber: phoneNumber,
+            address: address,
             products: products,
             timestamp: serverTimestamp()
         })

@@ -5,42 +5,54 @@ import FirebaseService from "../../../services/firebaseService"
 import {useState} from "react"
 import Loader from "../../ui/loader"
 import {useAppSelector} from "../../../hooks/useAppSelector"
-import {collection, doc, getFirestore} from "firebase/firestore";
+import {useActions} from "../../../hooks/useActions"
+import nova from '../../../assets/images/nova.jpg'
 
 const reg = /^\+?3?8?(0\d{9})$/
 
 const schema = yup.object({
-    firstName: yup.string().required('Ім\'я обов\'язкове поле'),
-    lastName: yup.string().required('Фамілія обов\'язкове поле'),
-    phoneNumber: yup.string().required('Мобільний телефон обов\'язкове поле').matches(reg, 'Мобільний телефон введений неправильно')
+    firstName: yup.string().required('Введіть Ім\'я'),
+    lastName: yup.string().required('Введіть фамілію'),
+    phoneNumber: yup.string().required('Введіть мобільний телефон').matches(reg, 'Мобільний телефон введений неправильно'),
+    address: yup.string().required('Введіть адрес / відділення Нової Пошти'),
 }).required()
 
 type Inputs = {
     firstName: string
     lastName: string
     phoneNumber: string
+    address: string
 }
 
 const ShoppingCartForm = () => {
+    const {clearCart} = useActions()
     const cart = useAppSelector(state => state.shoppingCart.products)
     const [loading, setLoading] = useState<boolean>(false)
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({resolver: yupResolver(schema)})
 
-    const onSubmit: SubmitHandler<Inputs> = ({firstName, lastName, phoneNumber}) => {
+    const onSubmit: SubmitHandler<Inputs> = ({firstName, lastName, phoneNumber, address}) => {
         setLoading(true)
 
-        FirebaseService.createOrder(firstName, lastName, phoneNumber, cart)
-            .finally(() => setLoading(false))
+        FirebaseService.createOrder(firstName, lastName, phoneNumber, address, cart)
+            .finally(() => {
+                setLoading(false)
+                clearCart()
+            })
     }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <input autoComplete="off" placeholder="Ім'я" {...register("firstName")} />
-            <p style={{color: 'red'}}>{errors.firstName?.message}</p>
+            <p>{errors.firstName?.message}</p>
             <input autoComplete="off" placeholder="Фамілія" {...register("lastName")} />
-            <p style={{color: 'red'}}>{errors.lastName?.message}</p>
+            <p>{errors.lastName?.message}</p>
             <input autoComplete="off" placeholder="Мобільний телефон" {...register("phoneNumber")} />
-            <p style={{color: 'red'}}>{errors.phoneNumber?.message}</p>
+            <p>{errors.phoneNumber?.message}</p>
+            <div>
+                <img width={24} height={24} src={nova} alt="Нова Пошта"/>
+                <input autoComplete="off" placeholder="Адрес / відділення Нової Пошти" {...register("address")} />
+            </div>
+            <p>{errors.address?.message}</p>
             <button type="submit" >{loading ? <Loader/> : 'Відправити'}</button>
         </form>
     )

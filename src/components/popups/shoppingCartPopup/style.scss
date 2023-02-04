@@ -20,6 +20,7 @@
     }
 
     form {
+        overflow: hidden;
         padding: 12px;
         background: #F1F2F4;
         border-radius: 12px;
@@ -27,6 +28,21 @@
         display: grid;
         grid-template-columns: 1fr;
         grid-auto-rows: minmax(auto, 1fr);
+        > div {
+            display: flex;
+            width: 100%;
+            position: relative;
+            img {
+                position: absolute;
+                left: 20px;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+            input {
+                width: 100%;
+                padding-left: 40px;
+            }
+        }
         input {
             background: #E5E7E9;
             transition: 0.3s ease;
@@ -42,6 +58,7 @@
         }
         p {
             margin-top: 5px;
+            color: red;
         }
         button {
             background: #72D4CA;
@@ -110,7 +127,7 @@
 
     &__product__data__product-title {
         flex: 1 1 100%;
-        font-size: 14px;
+        font-size: 16px;
         font-family: "Open Sans", sans-serif;
         padding-right: 20px;
     }
@@ -190,7 +207,8 @@
             font-size: 24px;
         }
         &__sub-title {
-            color: #1ABC9C;
+            font-size: 20px;
+            color: #ff1177;
         }
     }
 }
