@@ -1,8 +1,8 @@
 .support {
   position: fixed;
   background: #1d1d1d;
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   left: 30px;
   bottom: 30px;
   border-radius: 50%;
@@ -35,16 +35,10 @@
     top: -30px;
     bottom: -30px;
     border-radius: 50%;
-    animation: pulse 2.5s linear infinite;
+    animation: pulse 1.5s linear infinite;
   }
 
   &:after {
-    animation-delay: 1.25s;
-  }
-
-  &__title {
-    font-size: 11px;
-    color: white;
-    user-select: none;
+    animation-delay: .75s;
   }
 }

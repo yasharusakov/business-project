@@ -1,0 +1,17 @@
+.admin-questions-page {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  &__question {
+    &__data {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      font-weight: 900;
+      font-family: "Russo One", sans-serif;
+      letter-spacing: 1px;
+    }
+  }
+}

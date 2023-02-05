@@ -69,12 +69,12 @@
         justify-content: center;
         align-items: center;
         height: max-content;
+        padding: 15px;
         @media screen and (max-width: 600px){
             flex: 1 1 100%;
             position: static;
         }
         img {
-            padding: 15px;
             max-height: 350px;
         }
         &.characteristics {
@@ -121,10 +121,10 @@
         font-weight: 600;
         font-family: "Open Sans", sans-serif;
         &.add-to-cart {
-            background: #F69A12;
+            background: #079BCF;
         }
         &.has {
-            background: #20b920;
+            background: #1ABC9C;
         }
     }
 }

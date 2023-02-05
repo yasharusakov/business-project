@@ -8,6 +8,7 @@ import {IProductCharacteristic} from "../../types/IProductCharacteristic"
 import Loader from "../../components/ui/loader"
 import FirebaseService from "../../services/firebaseService"
 import Tabs from "../../components/ui/tabs"
+import ReactImageZoom from 'react-image-zoom'
 import './style.scss'
 
 type ProductPageParams = {
@@ -61,7 +62,11 @@ const ProductPage: FC<ProductPageProps> = ({characteristics}) => {
                     {(characteristics && product.characteristics) && <ProductPageCharacteristics productCharacteristics={transformedCharacteristics}/>}
                     <div className={`product-page__column ${characteristics ? 'characteristics' : ''}`}>
                         <div className={`product-page__picture ${characteristics ? 'characteristics' : ''}`}>
-                            <img src={product.url} alt={product.title}/>
+                            {
+                                characteristics ?
+                                    <img src={product.url} alt={product.title}/> :
+                                    <ReactImageZoom img={product.url} zoomWidth={500} />
+                            }
                         </div>
                         <div className="product-page__additional-data">
                             <h1 className="product-page__product-title">

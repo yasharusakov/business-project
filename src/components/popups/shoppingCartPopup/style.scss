@@ -21,14 +21,15 @@
 
     form {
         overflow: hidden;
-        padding: 12px;
+        padding: 15px;
         background: #F1F2F4;
         border-radius: 12px;
         flex: 1 1 100%;
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-auto-rows: minmax(auto, 1fr);
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
         > div {
+            flex: 1 1 auto;
             display: flex;
             width: 100%;
             position: relative;
@@ -44,6 +45,11 @@
             }
         }
         input {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            flex: 1 1 auto;
+            width: 100%;
             background: #E5E7E9;
             transition: 0.3s ease;
             border: 1px solid #D0D3D5;
@@ -57,15 +63,24 @@
             }
         }
         p {
-            margin-top: 5px;
             color: red;
+            flex: 0 0 20px;
+            height: 20px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
         }
         button {
+            flex: 0 0 60px;
+            height: 60px;
             background: #72D4CA;
             color: white;
             padding: 10px 30px;
             border-radius: 12px;
             cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     }
 

@@ -3,8 +3,7 @@ import {Timestamp} from "firebase/firestore"
 
 export interface IOrder {
     id: string
-    firstName: string
-    lastName: string
+    fullName: string
     phoneNumber: string
     products: IProductInCart[]
     address: string

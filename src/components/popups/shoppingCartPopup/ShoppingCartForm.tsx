@@ -2,7 +2,7 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from "yup"
 import FirebaseService from "../../../services/firebaseService"
-import {useState} from "react"
+import {FC, useState} from "react"
 import Loader from "../../ui/loader"
 import {useAppSelector} from "../../../hooks/useAppSelector"
 import {useActions} from "../../../hooks/useActions"
@@ -11,41 +11,42 @@ import nova from '../../../assets/images/nova.jpg'
 const reg = /^\+?3?8?(0\d{9})$/
 
 const schema = yup.object({
-    firstName: yup.string().required('Введіть Ім\'я'),
-    lastName: yup.string().required('Введіть фамілію'),
+    fullName: yup.string().required('Введіть ім\'я та фамілію'),
     phoneNumber: yup.string().required('Введіть мобільний телефон').matches(reg, 'Мобільний телефон введений неправильно'),
     address: yup.string().required('Введіть адрес / відділення Нової Пошти'),
 }).required()
 
 type Inputs = {
-    firstName: string
-    lastName: string
+    fullName: string
     phoneNumber: string
     address: string
 }
 
-const ShoppingCartForm = () => {
+interface ShoppingCartFormProps {
+    setNext: (data: boolean) => void
+}
+
+const ShoppingCartForm: FC<ShoppingCartFormProps> = ({setNext}) => {
     const {clearCart} = useActions()
     const cart = useAppSelector(state => state.shoppingCart.products)
     const [loading, setLoading] = useState<boolean>(false)
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({resolver: yupResolver(schema)})
 
-    const onSubmit: SubmitHandler<Inputs> = ({firstName, lastName, phoneNumber, address}) => {
+    const onSubmit: SubmitHandler<Inputs> = ({fullName, phoneNumber, address}) => {
         setLoading(true)
 
-        FirebaseService.createOrder(firstName, lastName, phoneNumber, address, cart)
+        FirebaseService.createOrder(fullName, phoneNumber, address, cart)
             .finally(() => {
                 setLoading(false)
                 clearCart()
+                setNext(false)
             })
     }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <input autoComplete="off" placeholder="Ім'я" {...register("firstName")} />
-            <p>{errors.firstName?.message}</p>
-            <input autoComplete="off" placeholder="Фамілія" {...register("lastName")} />
-            <p>{errors.lastName?.message}</p>
+            <input autoComplete="off" placeholder="Ім'я та фамілія" {...register("fullName")} />
+            <p>{errors.fullName?.message}</p>
             <input autoComplete="off" placeholder="Мобільний телефон" {...register("phoneNumber")} />
             <p>{errors.phoneNumber?.message}</p>
             <div>
@@ -53,7 +54,7 @@ const ShoppingCartForm = () => {
                 <input autoComplete="off" placeholder="Адрес / відділення Нової Пошти" {...register("address")} />
             </div>
             <p>{errors.address?.message}</p>
-            <button type="submit" >{loading ? <Loader/> : 'Відправити'}</button>
+            <button disabled={loading} type="submit" >{loading ? <Loader/> : 'Відправити'}</button>
         </form>
     )
 }

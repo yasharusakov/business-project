@@ -7,6 +7,7 @@ interface TabsProps {
 }
 
 const Tabs: FC<TabsProps> = memo(({tabs}) => {
+
     return (
         <div className="tabs">
             <div className="tabs__container container">

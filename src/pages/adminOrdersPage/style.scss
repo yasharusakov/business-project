@@ -26,17 +26,11 @@
       }
       &__additional-order-data {
         display: flex;
-        flex-direction: column;
         align-self: flex-end;
+        flex-direction: column;
+        gap: 15px;
         &__timestamp {
           color: #E5E7E9;
-        }
-        &__viewed {
-          input {
-            background: red;
-            width: 10px;
-            height: 10px;
-          }
         }
         @media screen and (max-width: 500px){
           align-self: inherit;

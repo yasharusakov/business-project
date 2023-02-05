@@ -10,7 +10,8 @@ const AdminPanelLayout: FC<AdminPagePanelProps> = ({children}) => {
 
     const tabs = [
         {to: '/admin/panel', value: 'Категорії'},
-        {to: '/admin/orders', value: 'Замовлення'}
+        {to: '/admin/orders', value: 'Замовлення'},
+        {to: '/admin/questions', value: 'Запитання'}
     ]
 
     return (

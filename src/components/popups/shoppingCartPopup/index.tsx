@@ -14,7 +14,7 @@ const ShoppingCartPopup = () => {
             <div className="shopping-cart-popup__container">
                 {cart.length > 0 ? (
                     <>
-                        {!next ? <Products products={cart} /> : <ShoppingCartForm/>}
+                        {!next ? <Products products={cart} /> : <ShoppingCartForm setNext={setNext} />}
                         <div className="shopping-cart-popup__next">
                             {!next ? (
                                 <>

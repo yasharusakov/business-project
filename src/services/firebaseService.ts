@@ -188,7 +188,7 @@ class FirebaseService {
         }
     }
 
-    async createOrder(firstName: string, lastName: string, phoneNumber: string, address: string, products: IProductInCart[]) {
+    async createOrder(fullName: string, phoneNumber: string, address: string, products: IProductInCart[]) {
         const db = getFirestore()
 
         const id = doc(collection(getFirestore(), '/id')).id
@@ -196,17 +196,39 @@ class FirebaseService {
         const docRef = doc(db, 'orders', id)
 
         await setDoc(docRef, {
-            firstName: firstName,
-            lastName: lastName,
+            fullName: fullName,
             phoneNumber: phoneNumber,
             address: address,
             products: products,
+            viewed: false,
             timestamp: serverTimestamp()
         })
     }
 
     async getOrders(setData: { (data: any): void }) {
         const unsub = this.listenData(setData, 'orders', 'desc')
+        return unsub
+    }
+
+    async createQuestion({fullName, phoneNumber, question}: {fullName: string, phoneNumber: string, question: string}) {
+        if (!fullName || !phoneNumber || !question) return
+
+        const db = getFirestore()
+
+        const id = doc(collection(getFirestore(), '/id')).id
+
+        const docRef = doc(db, 'questions', id)
+
+        await setDoc(docRef, {
+            fullName: fullName,
+            phoneNumber: phoneNumber,
+            question: question,
+            timestamp: serverTimestamp()
+        })
+    }
+
+    getQuestions(setData: {(data: any): void}) {
+        const unsub = this.listenData(setData, 'questions', 'desc')
         return unsub
     }
 }
