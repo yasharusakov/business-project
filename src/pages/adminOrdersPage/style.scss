@@ -32,6 +32,24 @@
         &__timestamp {
           color: #E5E7E9;
         }
+        &__viewed {
+          > button, > div {
+            width: 100%;
+            text-align: center;
+            padding: 5px 10px;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+          }
+
+          > button {
+            background: red;
+          }
+
+          > div {
+            background: #1ABC9C;
+          }
+        }
         @media screen and (max-width: 500px){
           align-self: inherit;
         }

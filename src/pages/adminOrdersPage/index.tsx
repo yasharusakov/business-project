@@ -8,7 +8,13 @@ const AdminOrdersPage = () => {
     const [orders, setOrders] = useState<IOrder[]>([])
 
     useEffect(() => {
-        FirebaseService.getOrders(setOrders)
+        const unsub = FirebaseService.getOrders(setOrders)
+
+        if (!unsub) return
+
+        return () => {
+            unsub()
+        }
     }, [])
 
     return (

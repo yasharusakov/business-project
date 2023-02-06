@@ -13,6 +13,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         display: flex;
+        gap: 5px;
         a {
             font-size: 15px;
             color: black;
@@ -24,6 +25,12 @@
             &.active {
                 color: white;
             }
+        }
+        .count {
+            font-size: 14px;
+            background: #1ABC9C;
+            color: white;
+            padding: 2px 4px;
         }
     }
 }

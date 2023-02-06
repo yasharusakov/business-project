@@ -1,9 +1,16 @@
 import nova from "../../assets/images/nova.jpg"
 import Accordion from "../../components/ui/accordion"
 import {IOrder} from "../../types/IOrder"
-import {FC, memo} from "react"
+import {FC, memo, useEffect, useState} from "react"
+import FirebaseService from "../../services/firebaseService"
 
 const Order: FC<IOrder> = memo(({id, fullName, phoneNumber, address, products, timestamp}) => {
+
+    const [viewed, setViewed] = useState<boolean>(false)
+
+    useEffect(() => {
+        FirebaseService.checkViewed(setViewed, `orders/${id}`)
+    }, [])
 
     return (
         <Accordion
@@ -30,6 +37,9 @@ const Order: FC<IOrder> = memo(({id, fullName, phoneNumber, address, products, t
                             <div className="admin-orders-page__order__user__additional-order-data">
                                 <div className="admin-orders-page__order__user__additional-order-data__timestamp">
                                     {new Date(timestamp.seconds * 1000).toLocaleString()}
+                                </div>
+                                <div className="admin-orders-page__order__user__additional-order-data__viewed">
+                                    {viewed ? <div>Переглянуто</div> : <button onClick={() => FirebaseService.updateViewed(`orders/${id}`)} >Переглянути</button>}
                                 </div>
                             </div>
                         </div>

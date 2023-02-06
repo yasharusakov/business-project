@@ -1,5 +1,5 @@
 import {ReactNode, FC} from "react"
-import Tabs from "../ui/tabs"
+import AdminTabs from "./adminTabs"
 import './style.scss'
 
 interface AdminPagePanelProps {
@@ -8,16 +8,10 @@ interface AdminPagePanelProps {
 
 const AdminPanelLayout: FC<AdminPagePanelProps> = ({children}) => {
 
-    const tabs = [
-        {to: '/admin/panel', value: 'Категорії'},
-        {to: '/admin/orders', value: 'Замовлення'},
-        {to: '/admin/questions', value: 'Запитання'}
-    ]
-
     return (
         <div className="admin-panel-layout">
             <div className="admin-panel-layout__container">
-                <Tabs tabs={tabs}/>
+                <AdminTabs/>
                 <div className="admin-panel-layout__content container">
                     {children}
                 </div>

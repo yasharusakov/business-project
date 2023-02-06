@@ -6,6 +6,7 @@ import instagram from '../../assets/images/instagram.png'
 import payments from '../../assets/images/payments.png'
 import Support from "../ui/support"
 import SupportPopup from "../popups/supportPopup"
+import Notification from "../ui/notification"
 import './style.scss'
 
 const Footer = () => {
@@ -41,6 +42,7 @@ const Footer = () => {
             <Popup title="Каталог" name="CategoriesPopup" render={() => <CategoriesPopup/>}/>
             <Popup title="Технічна підтримка" name="SupportPopup" render={() => <SupportPopup/>}/>
             <Support/>
+            <Notification/>
         </footer>
     )
 }

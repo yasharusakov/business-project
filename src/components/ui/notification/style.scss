@@ -1,0 +1,28 @@
+.notification {
+  position: fixed;
+  top: 120px;
+  width: max-content;
+  height: max-content;
+  padding: 5px 10px;
+  transition: 0.3s ease;
+
+  &.show {
+    right: 5px;
+  }
+  &.hide {
+    right: -100%
+  }
+
+  &.good {
+    background: #1ABC9C;
+  }
+
+  &.wrong {
+    background: red;
+  }
+
+  &__value {
+    color: white;
+    font-family: "Open Sans", sans-serif;
+  }
+}

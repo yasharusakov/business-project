@@ -27,7 +27,7 @@ interface ShoppingCartFormProps {
 }
 
 const ShoppingCartForm: FC<ShoppingCartFormProps> = ({setNext}) => {
-    const {clearCart} = useActions()
+    const {clearCart, setPopup, setNotification} = useActions()
     const cart = useAppSelector(state => state.shoppingCart.products)
     const [loading, setLoading] = useState<boolean>(false)
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({resolver: yupResolver(schema)})
@@ -40,6 +40,8 @@ const ShoppingCartForm: FC<ShoppingCartFormProps> = ({setNext}) => {
                 setLoading(false)
                 clearCart()
                 setNext(false)
+                setPopup({name: 'ShoppingCart', type: false, data: null})
+                setNotification({value: 'Замовлення відправлено', status: 'good'})
             })
     }
 
