@@ -1,6 +1,6 @@
 .admin-create-product-page {
     form {
-        width: 100%;
+        height: 100%;
         display: flex;
         flex-direction: column;
         gap: 15px;
@@ -12,13 +12,84 @@
             cursor: pointer;
         }
     }
+
     &__container {
-        height: calc(100vh - 210px);
         display: flex;
         gap: 15px;
-        @media screen and (max-width: 950px){
+    }
+
+    &__column {
+        display: flex;
+        &_1 {
+            flex: 0 0 500px;
+            display: flex;
             flex-direction: column;
-            height: 100%;
+            gap: 15px;
+        }
+        &_2 {
+            width: 100%;
+            textarea {
+                width: 100%;
+                flex: 1 1 100%;
+                font-family: "Open Sans", sans-serif;
+                padding: 15px;
+                border: 2px solid #079BCF;
+                overflow: auto;
+                resize: none;
+            }
+        }
+    }
+
+    &__images {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        &__additional {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            &__image {
+                padding: 5px;
+                border: 1px solid #1d1d1d;
+                width: 50px;
+                height: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: #079BCF;
+                img {
+                    width: auto;
+                    max-height: 100%;
+                }
+            }
+            &__add-image {
+                cursor: pointer;
+                width: 50px;
+                height: 50px;
+                border: 1px dashed grey;
+                color: red;
+                font-size: 30px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transition: all .3s ease;
+                position: relative;
+                input {
+                    cursor: pointer;
+                    font-size: 0;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    width: 100%;
+                    height: 100%;
+                    opacity: 0;
+                }
+                &:hover {
+                    background: #1ABC9C;
+                    color: white;
+                }
+            }
         }
     }
 
@@ -28,19 +99,6 @@
         color: white;
         padding: 10px 15px;
         font-weight: 600;
-    }
-
-    &__column {
-        width: 100%;
-        &_1 {
-            flex: 0 0 500px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        &_2 {
-            flex: 1 1 100%;
-        }
     }
 
     &__inputs {
@@ -61,6 +119,7 @@
     }
 
     &__picture {
+        flex: 0 0 300px;
         overflow: hidden;
         height: 100%;
         border: 2px solid #079BCF;
@@ -86,34 +145,6 @@
         color: red;
         &:hover {
             color: black;
-        }
-    }
-    &__characteristics {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        &__title {
-            border: 2px solid #079BCF;
-            font-family: "Russo One", sans-serif;
-            font-size: 28px;
-            flex: 0 0 58px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        textarea {
-            height: 100%;
-            font-family: "Open Sans", sans-serif;
-            padding: 15px;
-            border: 2px solid #079BCF;
-            overflow: auto;
-            min-height: 300px;
-            resize: none;
-        }
-
-        @media screen and (max-width: 950px){
-            height: inherit;
         }
     }
 }

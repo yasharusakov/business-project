@@ -5,7 +5,10 @@ interface INotification {
     status: 'good' | 'wrong' | null
 }
 
-const initialState: INotification = {} as INotification
+const initialState: INotification = {
+    value: null,
+    status: null
+}
 
 const notificationSlice = createSlice({
     name: 'notification',

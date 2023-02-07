@@ -1,6 +1,6 @@
 import FirebaseService from "../../services/firebaseService"
 import Upload from "../../components/ui/upload"
-import {FormEvent, useEffect, useState} from "react"
+import {ChangeEvent, FormEvent, useEffect, useState} from "react"
 import {collection, doc, getFirestore} from "firebase/firestore"
 import {useParams} from "react-router-dom"
 import Loader from "../../components/ui/loader"
@@ -22,6 +22,9 @@ const AdminCreateProductPage = () => {
     const [price, setPrice] = useState<number>()
 
     const [characteristics, setCharacteristics] = useState<string>('')
+
+    const [images, setImages] = useState<File[]>([])
+    const [imagesUrl, setImagesUrl] = useState<string[]>([])
 
     useEffect(() => {
         if (!categoryId || !productId) return
@@ -53,7 +56,7 @@ const AdminCreateProductPage = () => {
             FirebaseService.upload({name: 'product', file, categoryId, productId})
                 .then((urlData) => {
                     if (!urlData) return
-                    FirebaseService.createProduct(categoryId, productId, urlData, title, price!, characteristics)
+                    FirebaseService.createProduct(categoryId, productId, urlData, title, price!, characteristics, images)
                 })
                 .finally(() => {
                     setLoading(false)
@@ -81,6 +84,19 @@ const AdminCreateProductPage = () => {
 
     }
 
+    const createUrl = (images: File[]) => {
+        const data = images.map(image => {
+            const creator = window.URL || window.webkitURL
+            return creator.createObjectURL((image as Blob))
+        })
+        setImagesUrl(data)
+    }
+
+    useEffect(() => {
+        if (!images.length) return
+        createUrl(images)
+    }, [images.length])
+
     return (
         <div className="admin-create-product-page">
             <form onSubmit={productId ? onHandleSubmitEdit : onHandleSubmit}>
@@ -90,22 +106,34 @@ const AdminCreateProductPage = () => {
                             <input placeholder="Назва продукту" value={title} onChange={(e) => setTitle(e.target.value)} type="text"/>
                             <input placeholder="Ціна продукту" value={price} onChange={(e) => setPrice(+e.target.value.replace(/\D/g, ''))} type="text"/>
                         </div>
-                        <div className="admin-create-product-page__picture">
-                            {
-                                url ? (
-                                    <>
-                                        <div onClick={deletePhoto} className="admin-create-product-page__delete-photo">&#x2715;</div>
-                                        <img src={url}/>
-                                    </>
-                                ) : <Upload setFile={setFile} setUrl={setUrl} file={file}/>
-                            }
+                        <div className="admin-create-product-page__images">
+                            <div className="admin-create-product-page__picture">
+                                {
+                                    url ? (
+                                        <>
+                                            <div onClick={deletePhoto} className="admin-create-product-page__delete-photo">&#x2715;</div>
+                                            <img src={url}/>
+                                        </>
+                                    ) : <Upload setFile={setFile} setUrl={setUrl} file={file}/>
+                                }
+                            </div>
+                            <div className="admin-create-product-page__images__additional">
+                                {imagesUrl.map((imageUrl, index) => {
+                                    return (
+                                        <div key={index} className="admin-create-product-page__images__additional__image">
+                                            <img src={imageUrl} alt={imageUrl}/>
+                                        </div>
+                                    )
+                                })}
+                                <div className="admin-create-product-page__images__additional__add-image">
+                                    +
+                                    <input multiple onChange={(e: ChangeEvent<HTMLInputElement>) => setImages(images => [...images, ...e.target.files!])} accept=".jpg,.jpeg,.png" type="file"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div className="admin-create-product-page__column admin-create-product-page__column_2">
-                        <div className="admin-create-product-page__characteristics">
-                            <div className="admin-create-product-page__characteristics__title">Характеристики</div>
-                            <textarea value={characteristics} onChange={(e) => setCharacteristics(e.target.value)} />
-                        </div>
+                        <textarea placeholder="Характеристики" value={characteristics} onChange={(e) => setCharacteristics(e.target.value)} />
                     </div>
                 </div>
                 <button

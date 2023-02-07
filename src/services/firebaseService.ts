@@ -106,6 +106,17 @@ class FirebaseService {
         }
     }
 
+    async uploadAdditionalImage(file: File, path: string) {
+        try {
+            const storage = getStorage()
+            const storageRef = ref(storage, path)
+            await uploadBytes(storageRef, file)
+            return await getDownloadURL(storageRef)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     async createCategory(categoryTitle: string, file: File) {
         try {
             const db = getFirestore()
@@ -149,9 +160,20 @@ class FirebaseService {
     }
 
 
-    async createProduct(categoryId: string, id: string, url: string, title: string, price: number, characteristics: string) {
+    async createProduct(categoryId: string, id: string, url: string, title: string, price: number, characteristics: string, additionalImages?: File[]) {
         const db = getFirestore()
         const docRef = doc(db, `categories/${categoryId}/items`, id)
+
+        const urls: string[] = []
+
+        additionalImages?.forEach(image => {
+            this.uploadAdditionalImage(image, `categories/${categoryId}/additional/${image.name}`)
+                .then(urlImage => {
+                    if (!urlImage) return
+                    urls.push(urlImage)
+                })
+        })
+
         await setDoc(docRef, {
             url: url,
             title: title,
@@ -160,6 +182,16 @@ class FirebaseService {
             orders: 0,
             timestamp: serverTimestamp()
         })
+            .then(() => {
+                urls.forEach((item, index) => {
+                    const id = doc(collection(db, '/id')).id
+                    const docRef2 = doc(db, `categories/${categoryId}/items/${id}/additional`, id)
+                    setDoc(docRef2, {
+                        url: item,
+                        index: index
+                    })
+                })
+            })
     }
 
     async editProduct({file, categoryId, productId, title, price, characteristics}: {file: File | null, categoryId: string, productId: string, title: string, price: number, characteristics: string}) {

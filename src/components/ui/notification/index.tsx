@@ -17,6 +17,7 @@ const Notification = () => {
     return (
         <div className={`notification ${status} ${status ? 'show' : 'hide'}`}>
             <div className="notification__value">{value}</div>
+            {status && <div className="notification__line"></div>}
         </div>
     )
 }

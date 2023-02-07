@@ -22,7 +22,7 @@ type Inputs = {
 }
 
 const SupportPopup = () => {
-    const {setPopup} = useActions()
+    const {setPopup, setNotification} = useActions()
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({resolver: yupResolver(schema)})
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -33,6 +33,7 @@ const SupportPopup = () => {
             .finally(() => {
                 setLoading(false)
                 setPopup({name: 'SupportPopup', type: false, data: null})
+                setNotification({value: 'Запитання відправлено', status: 'good'})
             })
     }
 
