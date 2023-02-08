@@ -2,7 +2,7 @@ import {useEffect, useState} from "react"
 import {ICategory} from "../../../types/ICategory"
 import {useActions} from "../../../hooks/useActions"
 import {Link} from "react-router-dom"
-import FirebaseService from "../../../services/firebaseService"
+import CategoryService from "../../../services/categoryService"
 import './style.scss'
 
 const CategoriesPopup = () => {
@@ -10,7 +10,7 @@ const CategoriesPopup = () => {
     const [categories, setCategories] = useState<ICategory[]>([])
 
     useEffect(() => {
-        FirebaseService.getCategories()
+        CategoryService.getCategories()
             .then(data => {
                 if (!data) return
 

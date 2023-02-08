@@ -1,19 +1,17 @@
+import CategoryService from "../../services/categoryService"
 import {useEffect, useState} from "react"
 import {ICategory} from "../../types/ICategory"
-import FirebaseService from "../../services/firebaseService"
 import MainPageCategories from "./mainPageCategories"
 import Loader from "../../components/ui/loader"
 import wallet from '../../assets/images/wallet.png'
 import delivery from '../../assets/images/delivery.png'
 import warranty from '../../assets/images/warranty.png'
-
 import {Pagination, Autoplay, Navigation} from 'swiper'
 import {Swiper, SwiperSlide} from 'swiper/react'
 import 'swiper/scss'
 import 'swiper/scss/navigation'
 import 'swiper/scss/pagination'
 import 'swiper/scss/autoplay'
-
 import './style.scss'
 
 const MainPage = () => {
@@ -21,7 +19,7 @@ const MainPage = () => {
     const [categories, setCategories] = useState<ICategory[]>([])
 
     useEffect(() => {
-        FirebaseService.getCategories()
+        CategoryService.getCategories()
             .then(data => {
                 if (!data) return
                 setCategories(data)

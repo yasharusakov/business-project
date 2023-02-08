@@ -1,9 +1,9 @@
 import {FormEvent, useEffect, useState} from "react"
-import Upload from "../../ui/upload"
-import FirebaseService from "../../../services/firebaseService"
-import Loader from "../../ui/loader"
 import {useActions} from "../../../hooks/useActions"
 import {useAppSelector} from "../../../hooks/useAppSelector"
+import CategoryService from "../../../services/categoryService"
+import Upload from "../../ui/upload"
+import Loader from "../../ui/loader"
 import './style.scss'
 
 const CreateCategoryPopup = () => {
@@ -19,7 +19,7 @@ const CreateCategoryPopup = () => {
         setLoading(true)
 
         if (categoryName && file) {
-            FirebaseService.createCategory(categoryName, file)
+            CategoryService.createCategory(file, categoryName)
                 .finally(() => {
                     setLoading(false)
                     setPopup({name: 'CreateCategoryPopup', type: false, data: null})
@@ -36,7 +36,7 @@ const CreateCategoryPopup = () => {
         const categoryId = data.id
 
         if (categoryName && categoryId && url) {
-            FirebaseService.editCategory({file: data.url === url ? null : file, categoryId, categoryTitle: categoryName})
+            CategoryService.editCategory(data.url === url ? null : file, categoryId, categoryName)
                 .finally(() => {
                     setLoading(false)
                     setPopup({name: 'CreateCategoryPopup', type: false, data: null})

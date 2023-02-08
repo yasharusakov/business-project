@@ -6,6 +6,7 @@ import Loader from "../../components/ui/loader"
 import edit_icon from "../../assets/images/pencil.png"
 import delete_icon from "../../assets/images/delete.png"
 import './style.scss'
+import ProductService from "../../services/productService"
 
 type ProductsParams = {
     categoryId: string
@@ -19,7 +20,7 @@ const AdminProductsPage = () => {
     useEffect(() => {
         if (!categoryId) return
 
-        FirebaseService.getProducts(categoryId)
+        ProductService.getProducts(categoryId)
             .then((data) => {
                 if (!data) return
                 setProducts(data)

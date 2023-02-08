@@ -1,7 +1,7 @@
 import {FC, memo, useEffect, useMemo, useState} from "react"
 import {IProduct} from "../../types/IProduct"
-import FirebaseService from "../../services/firebaseService"
 import {Link} from "react-router-dom"
+import ProductService from "../../services/productService"
 
 interface CategoryPageProducts {
     filterBy: string
@@ -14,7 +14,7 @@ const CategoryPageProducts: FC<CategoryPageProducts> = memo(({filterBy, category
     useEffect(() => {
         if (!categoryId) return
 
-        FirebaseService.getProducts(categoryId)
+        ProductService.getProducts(categoryId)
             .then((data) => {
                 if (!data) return
                 setProducts(data)

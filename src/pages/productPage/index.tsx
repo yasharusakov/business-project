@@ -6,8 +6,8 @@ import ProductPageCharacteristics from "./productPageCharacteristics"
 import {IProduct} from "../../types/IProduct"
 import {IProductCharacteristic} from "../../types/IProductCharacteristic"
 import Loader from "../../components/ui/loader"
-import FirebaseService from "../../services/firebaseService"
 import Tabs from "../../components/ui/tabs"
+import ProductService from "../../services/productService"
 import './style.scss'
 
 type ProductPageParams = {
@@ -29,7 +29,7 @@ const ProductPage: FC<ProductPageProps> = ({characteristics}) => {
     useEffect(() => {
         if (!categoryId || !productId) return
 
-        FirebaseService.getProduct(categoryId, productId)
+        ProductService.getProduct(categoryId, productId)
             .then(data => {
                 if (!data) return
                 setProduct(data)
@@ -61,8 +61,28 @@ const ProductPage: FC<ProductPageProps> = ({characteristics}) => {
                     {(characteristics && product.characteristics) && <ProductPageCharacteristics productCharacteristics={transformedCharacteristics}/>}
                     <div className={`product-page__column ${characteristics ? 'characteristics' : ''}`}>
                         <div className={`product-page__picture ${characteristics ? 'characteristics' : ''}`}>
-                            <img src={product.url} alt={product.title}/>
+                            <img src={product.url} alt={product.id}/>
                         </div>
+                        {/*<Swiper*/}
+                        {/*    loop*/}
+                        {/*    autoplay={{delay: 3500}}*/}
+                        {/*    modules={[Navigation, Pagination, Autoplay]}*/}
+                        {/*    navigation*/}
+                        {/*    spaceBetween={10}*/}
+                        {/*    slidesPerView={1}*/}
+                        {/*    grabCursor={true}*/}
+                        {/*    pagination={{clickable: true}}*/}
+                        {/*>*/}
+                        {/*    {images.map(image => {*/}
+                        {/*        return (*/}
+                        {/*            <SwiperSlide key={image.id}>*/}
+                        {/*                <div className={`product-page__picture ${characteristics ? 'characteristics' : ''}`}>*/}
+                        {/*                    <img src={image.url} alt={image.id}/>*/}
+                        {/*                </div>*/}
+                        {/*            </SwiperSlide>*/}
+                        {/*        )*/}
+                        {/*    })}*/}
+                        {/*</Swiper>*/}
                         <div className="product-page__additional-data">
                             <h1 className="product-page__product-title">
                                 {product?.title}

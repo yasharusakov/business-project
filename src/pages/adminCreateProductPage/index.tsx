@@ -1,9 +1,8 @@
-import FirebaseService from "../../services/firebaseService"
 import Upload from "../../components/ui/upload"
 import {ChangeEvent, FormEvent, useEffect, useState} from "react"
-import {collection, doc, getFirestore} from "firebase/firestore"
 import {useParams} from "react-router-dom"
 import Loader from "../../components/ui/loader"
+import ProductService from "../../services/productService"
 import './style.scss'
 
 type AdminCreateProductPageParams = {
@@ -24,18 +23,20 @@ const AdminCreateProductPage = () => {
     const [characteristics, setCharacteristics] = useState<string>('')
 
     const [images, setImages] = useState<File[]>([])
-    const [imagesUrl, setImagesUrl] = useState<string[]>([])
+    const [imagesUrl, setImagesUrl] = useState<{id: string, url: string}[]>([])
+    const [imagesData, setImagesData] = useState<{id: string, url: string}[]>([])
 
     useEffect(() => {
         if (!categoryId || !productId) return
 
-        FirebaseService.getProduct(categoryId, productId)
+        ProductService.getProduct(categoryId, productId)
             .then(data => {
                 if (!data) return
                 setUrl(data.url)
                 setTitle(data.title)
                 setPrice(data.price)
                 setCharacteristics(data.characteristics)
+                setImagesData(data.images)
             })
 
 
@@ -48,46 +49,32 @@ const AdminCreateProductPage = () => {
 
     const onHandleSubmit = (e: FormEvent) => {
         e.preventDefault()
-        setLoading(true)
 
-        const productId = doc(collection(getFirestore(), '/id')).id
-
-        if (categoryId && productId && file) {
-            FirebaseService.upload({name: 'product', file, categoryId, productId})
-                .then((urlData) => {
-                    if (!urlData) return
-                    FirebaseService.createProduct(categoryId, productId, urlData, title, price!, characteristics, images)
-                })
-                .finally(() => {
-                    setLoading(false)
-                })
-        } else {
-            setLoading(false)
-        }
-
-    }
-
-    const onHandleSubmitEdit = (e: FormEvent) => {
-        e.preventDefault()
+        if (!categoryId) return
 
         setLoading(true)
 
-        if (categoryId && productId && price) {
+        if (productId) {
             const data = (url && !file) ? null : file
-            FirebaseService.editProduct({file: data, categoryId, productId, title, price, characteristics})
+            const data2 = images.length ? images : null
+
+            ProductService.editProduct(data, categoryId, productId, title, Number(price), characteristics, data2)
                 .finally(() => {
                     setLoading(false)
                 })
         } else {
-            setLoading(false)
+            ProductService.createProduct(categoryId, file!, title, Number(price), characteristics, images)
+                .finally(() => {
+                    setLoading(false)
+                })
         }
 
     }
 
     const createUrl = (images: File[]) => {
-        const data = images.map(image => {
+        const data = images.map((image, index) => {
             const creator = window.URL || window.webkitURL
-            return creator.createObjectURL((image as Blob))
+            return {id: `${index}`, url: creator.createObjectURL((image as Blob))}
         })
         setImagesUrl(data)
     }
@@ -99,7 +86,7 @@ const AdminCreateProductPage = () => {
 
     return (
         <div className="admin-create-product-page">
-            <form onSubmit={productId ? onHandleSubmitEdit : onHandleSubmit}>
+            <form onSubmit={onHandleSubmit}>
                 <div className="admin-create-product-page__container">
                     <div className="admin-create-product-page__column admin-create-product-page__column_1">
                         <div className="admin-create-product-page__inputs">
@@ -118,10 +105,10 @@ const AdminCreateProductPage = () => {
                                 }
                             </div>
                             <div className="admin-create-product-page__images__additional">
-                                {imagesUrl.map((imageUrl, index) => {
+                                {[...imagesData, ...imagesUrl]?.map((imageUrl, index) => {
                                     return (
                                         <div key={index} className="admin-create-product-page__images__additional__image">
-                                            <img src={imageUrl} alt={imageUrl}/>
+                                            <img src={imageUrl.url} alt={imageUrl.url}/>
                                         </div>
                                     )
                                 })}

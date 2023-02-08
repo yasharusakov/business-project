@@ -1,14 +1,14 @@
 import {useEffect, useState} from "react"
 import {Link} from "react-router-dom"
 import {ICategory} from "../../types/ICategory"
-import FirebaseService from '../../services/firebaseService'
+import CategoryService from "../../services/categoryService"
 import '../../assets/styles/cards.scss'
 
 const MainPageCategories = () => {
     const [categories, setCategories] = useState<ICategory[]>([])
 
     useEffect(() => {
-        FirebaseService.getCategories()
+        CategoryService.getCategories()
             .then(data => {
                 if (!data) return
                 setCategories(data)
