@@ -2,7 +2,52 @@
 
 .product-page {
     width: 100%;
+    .slides {
+        display: flex;
+        gap: 15px;
+        &__choose {
+            display: flex;
+            flex-direction: column;
+            > div {
+                cursor: pointer;
+                padding: 10px;
+                width: 50px;
+                height: 50px;
+                transition: all .3s ease;
+                &:hover, &.active {
+                    background: #079BCF;
+                }
+            }
+        }
+        @media screen and (max-width: 750px){
+            width: 100%;
+            .slides__choose {
+                display: none;
+            }
+        }
+        &.characteristics {
+            flex-direction: row-reverse;
+        }
+    }
+    .swiper {
+        max-width: 350px;
+        .swiper-button-next {
+            &:after {
+                content: "\203A";
+                font-size: 60px;
+                font-weight: 900;
+            }
+        }
+        .swiper-button-prev {
+            &:after {
+                content: "\2039";
+                font-size: 60px;
+                font-weight: 900;
+            }
+        }
+    }
     &__row {
+        width: 100%;
         margin: 15px 0;
         display: flex;
         gap: 15px;
@@ -13,8 +58,10 @@
     &__column {
         &:not(&.characteristics) {
             flex: 0 1 100%;
+            width: 100%;
         }
         &.characteristics {
+            width: 100%;
             align-self: flex-start;
             display: flex;
             flex-direction: column;
@@ -61,37 +108,15 @@
         }
     }
     &__picture {
-        position: sticky;
-        top: 110.5px;
-        flex: 0 1 350px;
         background: #EAEAEA;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: max-content;
         padding: 15px;
-        @media screen and (max-width: 600px){
-            flex: 1 1 100%;
-            position: static;
-        }
         img {
+            user-select: none;
+            width: auto;
             max-height: 350px;
-        }
-        &.characteristics {
-            width: max-content;
-            position: static;
-            flex: 0 1 200px;
-            img {
-                max-height: 200px;
-            }
-            @media screen and (max-width: 400px){
-                flex: 1;
-                width: 100%;
-                img {
-                    width: auto;
-                    max-height: 350px;
-                }
-            }
         }
     }
     &__additional-data {

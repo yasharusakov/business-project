@@ -8,6 +8,13 @@ import {IProductCharacteristic} from "../../types/IProductCharacteristic"
 import Loader from "../../components/ui/loader"
 import Tabs from "../../components/ui/tabs"
 import ProductService from "../../services/productService"
+import {Swiper, SwiperSlide} from "swiper/react"
+import {Swiper as SwiperType} from "swiper/types"
+import {Navigation, Pagination} from "swiper"
+import 'swiper/scss'
+import 'swiper/scss/navigation'
+import 'swiper/scss/pagination'
+import 'swiper/scss/autoplay'
 import './style.scss'
 
 type ProductPageParams = {
@@ -21,6 +28,7 @@ interface ProductPageProps {
 
 const ProductPage: FC<ProductPageProps> = ({characteristics}) => {
     const {categoryId, productId} = useParams<ProductPageParams>()
+    const [swiper, setSwiper] = useState<SwiperType>()
     const [product, setProduct] = useState<IProduct>({} as IProduct)
     const products = useAppSelector(state => state.shoppingCart.products)
     const {addToCart, setPopup} = useActions()
@@ -60,29 +68,43 @@ const ProductPage: FC<ProductPageProps> = ({characteristics}) => {
                 <div className="product-page__row">
                     {(characteristics && product.characteristics) && <ProductPageCharacteristics productCharacteristics={transformedCharacteristics}/>}
                     <div className={`product-page__column ${characteristics ? 'characteristics' : ''}`}>
-                        <div className={`product-page__picture ${characteristics ? 'characteristics' : ''}`}>
-                            <img src={product.url} alt={product.id}/>
+                        <div className={`slides ${characteristics ? 'characteristics': ''}`}>
+                            <div className="slides__choose">
+                                {[{url: product.url, id: product.id}, ...product.images].map((image, index) => {
+                                    return (
+                                        <div key={image.id} onClick={() => swiper?.slideTo(index + 1)} className={`product-page__picture ${characteristics ? 'characteristics' : '' }`}>
+                                            <img src={image.url} alt={image.id}/>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                            <Swiper
+                                loop
+                                modules={[Navigation, Pagination]}
+                                navigation
+                                spaceBetween={10}
+                                slidesPerView={1}
+                                grabCursor={true}
+                                pagination={{clickable: true}}
+                                onSwiper={setSwiper}
+                                onSlideChange={setSwiper}
+                            >
+                                <SwiperSlide>
+                                    <div className={`product-page__picture ${characteristics ? 'characteristics' : ''}`}>
+                                        <img src={product.url} alt={product.id}/>
+                                    </div>
+                                </SwiperSlide>
+                                {product.images.map(image => {
+                                    return (
+                                        <SwiperSlide key={image.id}>
+                                            <div className={`product-page__picture ${characteristics ? 'characteristics' : ''}`}>
+                                                <img src={image.url} alt={image.id}/>
+                                            </div>
+                                        </SwiperSlide>
+                                    )
+                                })}
+                            </Swiper>
                         </div>
-                        {/*<Swiper*/}
-                        {/*    loop*/}
-                        {/*    autoplay={{delay: 3500}}*/}
-                        {/*    modules={[Navigation, Pagination, Autoplay]}*/}
-                        {/*    navigation*/}
-                        {/*    spaceBetween={10}*/}
-                        {/*    slidesPerView={1}*/}
-                        {/*    grabCursor={true}*/}
-                        {/*    pagination={{clickable: true}}*/}
-                        {/*>*/}
-                        {/*    {images.map(image => {*/}
-                        {/*        return (*/}
-                        {/*            <SwiperSlide key={image.id}>*/}
-                        {/*                <div className={`product-page__picture ${characteristics ? 'characteristics' : ''}`}>*/}
-                        {/*                    <img src={image.url} alt={image.id}/>*/}
-                        {/*                </div>*/}
-                        {/*            </SwiperSlide>*/}
-                        {/*        )*/}
-                        {/*    })}*/}
-                        {/*</Swiper>*/}
                         <div className="product-page__additional-data">
                             <h1 className="product-page__product-title">
                                 {product?.title}
