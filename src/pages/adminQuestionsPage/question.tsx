@@ -1,13 +1,19 @@
 import Accordion from "../../components/ui/accordion"
 import {FC, useEffect, useState} from "react"
 import {IQuestion} from "../../types/IQuestion"
-import FirebaseService from "../../services/firebaseService"
+import ViewService from "../../services/viewService"
 
 const Question: FC<IQuestion> = ({id, fullName, phoneNumber, question, timestamp}) => {
     const [viewed, setViewed] = useState<boolean>(false)
 
     useEffect(() => {
-        FirebaseService.checkViewed(setViewed, `questions/${id}`)
+        const unsub = ViewService.checkViewed(setViewed, `questions/${id}`)
+
+        if (!unsub) return
+
+        return () => {
+            unsub()
+        }
     }, [])
 
     return (
@@ -21,7 +27,7 @@ const Question: FC<IQuestion> = ({id, fullName, phoneNumber, question, timestamp
                     <div className="admin-questions-page__question__additional-data">
                         <div className="admin-questions-page__question__additional-data__timestamp">{new Date(timestamp.seconds * 1000).toLocaleString()}</div>
                         <div className="admin-questions-page__question__additional-data__viewed">
-                            {viewed ? <div>Переглянуто</div> : <button onClick={() => FirebaseService.updateViewed(`questions/${id}`)} >Переглянути</button>}
+                            {viewed ? <div>Переглянуто</div> : <button onClick={() => ViewService.updateViewed(`questions/${id}`)} >Переглянути</button>}
                         </div>
                     </div>
                 </div>

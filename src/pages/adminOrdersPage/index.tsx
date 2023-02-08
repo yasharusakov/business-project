@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react"
 import {IOrder} from "../../types/IOrder"
-import FirebaseService from "../../services/firebaseService"
+import OrderService from "../../services/orderService"
 import Order from "./order"
 import './style.scss'
 
@@ -8,7 +8,7 @@ const AdminOrdersPage = () => {
     const [orders, setOrders] = useState<IOrder[]>([])
 
     useEffect(() => {
-        const unsub = FirebaseService.getOrders(setOrders)
+        const unsub = OrderService.getOrders(setOrders)
 
         if (!unsub) return
 

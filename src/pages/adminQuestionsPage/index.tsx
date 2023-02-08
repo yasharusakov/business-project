@@ -1,14 +1,13 @@
 import {useEffect, useState} from "react"
-import FirebaseService from "../../services/firebaseService"
-import Accordion from "../../components/ui/accordion"
+import Question from "./question"
+import QuestionService from "../../services/questionService"
 import './style.scss'
-import Question from "./question";
 
 const AdminQuestionsPage = () => {
     const [questions, setQuestions] = useState<any[]>([])
 
     useEffect(() => {
-        const unsub = FirebaseService.getQuestions(setQuestions)
+        const unsub = QuestionService.getQuestions(setQuestions)
         if (!unsub) return
 
         return () => {

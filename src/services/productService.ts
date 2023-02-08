@@ -80,7 +80,7 @@ class ProductService {
             })
     }
 
-    async editProduct(file: File | null, categoryId: string, productId: string, title: string, price: number, characteristics: string, additionalImages: File[] | null) {
+    async editProduct(file: File | null, categoryId: string, productId: string, title: string, price: number, characteristics: string, additionalImages: File[] | null, newDeletedImages: {id: string, url: string}[] | null) {
         try {
             const db = getFirestore()
             const docRef = doc(db, `categories/${categoryId}/items`, productId)
@@ -106,7 +106,7 @@ class ProductService {
             }
 
             if (additionalImages) {
-                additionalImages.forEach(file => {
+                await additionalImages.forEach(file => {
                     if (!file) return
                     const id = doc(collection(db, 'id')).id
                     UploadService.uploadAdditionalImageForProduct(file, categoryId, productId, id)
@@ -117,6 +117,17 @@ class ProductService {
                         })
                 })
 
+            }
+
+            if (newDeletedImages) {
+                await newDeletedImages.forEach(image => {
+                    const db = getFirestore()
+                    const storage = getStorage()
+                    const docRef = doc(db, `categories/${categoryId}/items/${productId}/images`, image.id)
+                    const storageRef = ref(storage, `categories/${categoryId}/products/${productId}/images/${image.id}`)
+                    deleteObject(storageRef)
+                    deleteDoc(docRef)
+                })
             }
 
         } catch (err) {

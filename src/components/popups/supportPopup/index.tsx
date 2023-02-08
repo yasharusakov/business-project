@@ -1,10 +1,10 @@
 import {useState} from "react"
-import FirebaseService from "../../../services/firebaseService"
 import Loader from "../../ui/loader"
 import * as yup from "yup"
 import {SubmitHandler, useForm} from "react-hook-form"
 import {yupResolver} from "@hookform/resolvers/yup"
 import {useActions} from "../../../hooks/useActions"
+import QuestionService from "../../../services/questionService"
 import './style.scss'
 
 const reg = /^\+?3?8?(0\d{9})$/
@@ -29,7 +29,7 @@ const SupportPopup = () => {
     const onSubmit: SubmitHandler<Inputs> = ({fullName, phoneNumber, question}) => {
         setLoading(true)
 
-        FirebaseService.createQuestion({fullName, phoneNumber, question})
+        QuestionService.createQuestion(fullName, phoneNumber, question)
             .finally(() => {
                 setLoading(false)
                 setPopup({name: 'SupportPopup', type: false, data: null})

@@ -2,11 +2,11 @@ import {Link, useParams} from "react-router-dom"
 import {useEffect, useState} from "react"
 import {IProduct} from "../../types/IProduct"
 import FirebaseService from "../../services/firebaseService"
+import ProductService from "../../services/productService"
 import Loader from "../../components/ui/loader"
 import edit_icon from "../../assets/images/pencil.png"
 import delete_icon from "../../assets/images/delete.png"
 import './style.scss'
-import ProductService from "../../services/productService"
 
 type ProductsParams = {
     categoryId: string

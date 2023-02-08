@@ -1,14 +1,14 @@
 import {NavLink} from "react-router-dom"
 import {useEffect, useState} from "react"
-import FirebaseService from "../../services/firebaseService"
+import ViewService from "../../services/viewService"
 
 const AdminTabs = () => {
     const [countOfOrders, setCountOfOrders] = useState<number>(0)
     const [countOfQuestions, setCountOfQuestions] = useState<number>(0)
 
     useEffect(() => {
-        FirebaseService.getCountOfNotViewed(setCountOfOrders, 'orders')
-        FirebaseService.getCountOfNotViewed(setCountOfQuestions, 'questions')
+        ViewService.getCountOfNotViewed(setCountOfOrders, 'orders')
+        ViewService.getCountOfNotViewed(setCountOfQuestions, 'questions')
     }, [])
 
     const adminTabs = [

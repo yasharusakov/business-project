@@ -8,6 +8,7 @@ import edit_icon from "../../assets/images/pencil.png"
 import Popup from "../../components/popup"
 import CreateCategoryPopup from "../../components/popups/createCategoryPopup"
 import {Link} from "react-router-dom"
+import ListenService from "../../services/listenService"
 import './style.scss'
 
 const AdminCategoriesPage = () => {
@@ -20,7 +21,7 @@ const AdminCategoriesPage = () => {
     }
 
     useEffect(() => {
-        const unsub = FirebaseService.listenData(setCategories, '/categories', 'asc')
+        const unsub = ListenService.listenDocs(setCategories, 'categories', 'asc')
 
         setLoading(false)
 

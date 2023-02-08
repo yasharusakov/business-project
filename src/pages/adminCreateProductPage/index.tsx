@@ -3,6 +3,7 @@ import {ChangeEvent, FormEvent, useEffect, useState} from "react"
 import {useParams} from "react-router-dom"
 import Loader from "../../components/ui/loader"
 import ProductService from "../../services/productService"
+import delete_icon from '../../assets/images/delete.png'
 import './style.scss'
 
 type AdminCreateProductPageParams = {
@@ -25,6 +26,7 @@ const AdminCreateProductPage = () => {
     const [images, setImages] = useState<File[]>([])
     const [imagesUrl, setImagesUrl] = useState<{id: string, url: string}[]>([])
     const [imagesData, setImagesData] = useState<{id: string, url: string}[]>([])
+    const [deletedImages, setDeletedImages] = useState<{id: string, url: string}[]>([])
 
     useEffect(() => {
         if (!categoryId || !productId) return
@@ -57,8 +59,9 @@ const AdminCreateProductPage = () => {
         if (productId) {
             const data = (url && !file) ? null : file
             const data2 = images.length ? images : null
+            const newDeletedImages = deletedImages.filter(item => item.id.length > 3)
 
-            ProductService.editProduct(data, categoryId, productId, title, Number(price), characteristics, data2)
+            ProductService.editProduct(data, categoryId, productId, title, Number(price), characteristics, data2, newDeletedImages.length ? newDeletedImages : null)
                 .finally(() => {
                     setLoading(false)
                 })
@@ -69,6 +72,17 @@ const AdminCreateProductPage = () => {
                 })
         }
 
+    }
+
+    const deleteAdditionalImage = (id: string, url: string, index: number) => {
+        if (id.length > 3) {
+            setImagesData((imagesData) => imagesData.filter(item => item.id !== id))
+            setDeletedImages(deletedImages => [...deletedImages, {id, url}])
+        } else {
+            setImages(images => images.filter((item, i) => i === index))
+            setImagesUrl(imagesUrl => imagesUrl.filter(item => item.url !== url))
+            setDeletedImages(deletedImages => [...deletedImages, {id, url}])
+        }
     }
 
     const createUrl = (images: File[]) => {
@@ -105,10 +119,13 @@ const AdminCreateProductPage = () => {
                                 }
                             </div>
                             <div className="admin-create-product-page__images__additional">
-                                {[...imagesData, ...imagesUrl]?.map((imageUrl, index) => {
+                                {[...imagesData, ...imagesUrl]?.map((image, index) => {
                                     return (
-                                        <div key={index} className="admin-create-product-page__images__additional__image">
-                                            <img src={imageUrl.url} alt={imageUrl.url}/>
+                                        <div onClick={() => deleteAdditionalImage(image.id, image.url, index)} key={index} className="admin-create-product-page__images__additional__image">
+                                            <img src={image.url} alt={image.url}/>
+                                            <div className="delete_icon">
+                                                <img src={delete_icon} alt="delete_icon"/>
+                                            </div>
                                         </div>
                                     )
                                 })}

@@ -1,12 +1,12 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from "yup"
-import FirebaseService from "../../../services/firebaseService"
 import {FC, useState} from "react"
 import Loader from "../../ui/loader"
 import {useAppSelector} from "../../../hooks/useAppSelector"
 import {useActions} from "../../../hooks/useActions"
 import nova from '../../../assets/images/nova.jpg'
+import OrderService from "../../../services/orderService"
 
 const reg = /^\+?3?8?(0\d{9})$/
 
@@ -35,7 +35,7 @@ const ShoppingCartForm: FC<ShoppingCartFormProps> = ({setNext}) => {
     const onSubmit: SubmitHandler<Inputs> = ({fullName, phoneNumber, address}) => {
         setLoading(true)
 
-        FirebaseService.createOrder(fullName, phoneNumber, address, cart)
+        OrderService.createOrder(fullName, phoneNumber, address, cart)
             .finally(() => {
                 setLoading(false)
                 clearCart()

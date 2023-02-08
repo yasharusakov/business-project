@@ -1,14 +1,4 @@
-import {
-    collection, deleteDoc,
-    doc, getDoc,
-    getDocs,
-    getFirestore,
-    orderBy,
-    query,
-    serverTimestamp,
-    setDoc,
-    updateDoc
-} from "firebase/firestore"
+import {collection, doc, getDoc, getDocs, getFirestore, orderBy, query, serverTimestamp, setDoc, updateDoc} from "firebase/firestore"
 import UploadService from "./uploadService"
 import {ICategory} from "../types/ICategory"
 
@@ -19,8 +9,7 @@ class CategoryService {
             const collectionRef = collection(db, 'categories')
             const q = query(collectionRef, orderBy('timestamp'))
             const docsSnapshot = await getDocs(q)
-            const docsData = docsSnapshot.docs.map(doc => ({...doc.data(), id: doc.id} as ICategory))
-            return docsData
+            return docsSnapshot.docs.map(doc => ({...doc.data(), id: doc.id} as ICategory))
         } catch (err) {
             console.log(err)
         }
@@ -31,8 +20,7 @@ class CategoryService {
             const db = getFirestore()
             const docRef = doc(db, `/categories/${categoryId}`)
             const docSnapshot = await getDoc(docRef)
-            const docData = docSnapshot.data() as ICategory
-            return docData
+            return docSnapshot.data() as ICategory
         } catch (err) {
             console.log(err)
         }
@@ -43,7 +31,6 @@ class CategoryService {
             const db = getFirestore()
             const categoryId = doc(collection(db, 'id')).id
             const docRef = doc(db, 'categories', categoryId)
-
             await UploadService.uploadOneImageForCategory(file, categoryId)
                 .then(async url => {
                     await setDoc(docRef, {
