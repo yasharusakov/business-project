@@ -1,5 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
+import {useNavigate} from "react-router-dom"
 import * as yup from "yup"
 import {FC, useState} from "react"
 import Loader from "../../ui/loader"
@@ -27,6 +28,7 @@ interface ShoppingCartFormProps {
 }
 
 const ShoppingCartForm: FC<ShoppingCartFormProps> = ({setNext}) => {
+    const navigate = useNavigate()
     const {clearCart, setPopup, setNotification} = useActions()
     const cart = useAppSelector(state => state.shoppingCart.products)
     const [loading, setLoading] = useState<boolean>(false)
@@ -41,6 +43,7 @@ const ShoppingCartForm: FC<ShoppingCartFormProps> = ({setNext}) => {
                 clearCart()
                 setNext(false)
                 setPopup({name: 'ShoppingCart', type: false, data: null})
+                navigate('/')
                 setNotification({value: 'Замовлення відправлено', status: 'good'})
             })
     }

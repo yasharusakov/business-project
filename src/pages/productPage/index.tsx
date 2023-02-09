@@ -72,7 +72,7 @@ const ProductPage: FC<ProductPageProps> = ({characteristics}) => {
                             <div className="slides__choose">
                                 {[{url: product.url, id: product.id}, ...product.images].map((image, index) => {
                                     return (
-                                        <div key={image.id} onClick={() => swiper?.slideTo(index + 1)} className={`product-page__picture ${characteristics ? 'characteristics' : '' }`}>
+                                        <div key={image.id} onClick={() => swiper?.slideTo(index + 1)} className={`product-page__picture ${characteristics ? 'characteristics' : ''}`}>
                                             <img src={image.url} alt={image.id}/>
                                         </div>
                                     )
@@ -87,7 +87,6 @@ const ProductPage: FC<ProductPageProps> = ({characteristics}) => {
                                 grabCursor={true}
                                 pagination={{clickable: true}}
                                 onSwiper={setSwiper}
-                                onSlideChange={setSwiper}
                             >
                                 <SwiperSlide>
                                     <div className={`product-page__picture ${characteristics ? 'characteristics' : ''}`}>
@@ -116,11 +115,11 @@ const ProductPage: FC<ProductPageProps> = ({characteristics}) => {
                                             <Fragment key={index}>
                                                 {index === transformedCharacteristics.length - 1 ? (
                                                     <>
-                                                        {characteristic.title} {characteristic.value}
+                                                        {`${characteristic.title} ${characteristic.value}`}
                                                     </>
                                                 ) : (
                                                     <>
-                                                        {characteristic.title} {characteristic.value} <span> / </span>
+                                                        {`${characteristic.title} ${characteristic.value}`} <span> / </span>
                                                     </>
                                                 )}
                                             </Fragment>

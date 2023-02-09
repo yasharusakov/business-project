@@ -79,7 +79,7 @@ const AdminCreateProductPage = () => {
             setImagesData((imagesData) => imagesData.filter(item => item.id !== id))
             setDeletedImages(deletedImages => [...deletedImages, {id, url}])
         } else {
-            setImages(images => images.filter((item, i) => i === index))
+            setImages(images => images.filter((item, i) => i !== index))
             setImagesUrl(imagesUrl => imagesUrl.filter(item => item.url !== url))
             setDeletedImages(deletedImages => [...deletedImages, {id, url}])
         }

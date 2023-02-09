@@ -5,7 +5,6 @@ import {FC, memo, useEffect, useState} from "react"
 import ViewService from "../../services/viewService"
 
 const Order: FC<IOrder> = memo(({id, fullName, phoneNumber, address, products, timestamp}) => {
-
     const [viewed, setViewed] = useState<boolean>(false)
 
     useEffect(() => {

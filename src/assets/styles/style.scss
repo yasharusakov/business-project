@@ -130,4 +130,15 @@ button {
     background: #8f8f8f;
     cursor: not-allowed;
   }
+
+  &.load {
+    margin-top: 15px;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: white;
+    background: #079BCF;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: "Russo One", sans-serif;
+  }
 }

@@ -13,6 +13,7 @@ const AdminTabs = () => {
 
     const adminTabs = [
         {to: '/admin/panel', value: 'Категорії'},
+        {to: '/admin/otherwise', value: 'Інше'},
         {to: '/admin/orders', value: 'Замовлення'},
         {to: '/admin/questions', value: 'Запитання'}
     ]
@@ -35,7 +36,9 @@ const AdminTabs = () => {
                             <NavLink to={tab.to}>
                                 {tab.value}
                             </NavLink>
-                            <div className="count">{tab.to === '/admin/orders' ? countOfOrders : countOfQuestions}</div>
+                            {
+                                tab.to !== '/admin/otherwise' && <div className="count">{tab.to === '/admin/orders' ? countOfOrders : countOfQuestions}</div>
+                            }
                         </div>
                     )
                 })}
