@@ -1,6 +1,21 @@
-import {collection, doc, getDoc, getDocs, getFirestore, orderBy, query, serverTimestamp, setDoc, updateDoc} from "firebase/firestore"
+import {
+    collection,
+    doc,
+    getDoc,
+    getDocs,
+    getFirestore,
+    orderBy,
+    query,
+    serverTimestamp,
+    setDoc,
+    updateDoc,
+    Unsubscribe,
+    deleteDoc
+} from "firebase/firestore"
 import UploadService from "./uploadService"
 import {ICategory} from "../types/ICategory"
+import {deleteObject, getStorage, list, listAll, ref} from "firebase/storage";
+import ProductService from "./productService";
 
 class CategoryService {
     async getCategories() {
@@ -67,32 +82,30 @@ class CategoryService {
         }
     }
 
-    // async deleteCategory(categoryId: string) {
-    //     try {
-    //         const db = getFirestore()
-    //         const storage = getStorage()
-    //         const storageRef = ref(storage, `categories/${categoryId}/image`)
-    //         const docRef = doc(db, `categories/${categoryId}`)
-    //
-    //         const confirmDelete = window.confirm(`Ви дійсно хочете видалити категорію?`)
-    //
-    //         if (confirmDelete && categoryId) {
-    //             const list = ref(storage, `categories/${categoryId}/image/images`)
-    //             await deleteDoc(docRef)
-    //             await listAll(list)
-    //                 .then(async list => {
-    //                     for (const ref of list.items) {
-    //                         await deleteObject(ref)
-    //                     }
-    //                 })
-    //                 .then(async () => {
-    //                     await deleteObject(storageRef)
-    //                 })
-    //         }
-    //     } catch (err) {
-    //         console.log(err)
-    //     }
-    // }
+    async deleteCategory(categoryId: string) {
+        // eslint-disable-next-line no-restricted-globals
+        const confirmValue = confirm('Ви дійсно хочете видалити категорію?')
+
+        if (!confirmValue || !categoryId) return
+
+        const db = getFirestore()
+        const storage = getStorage()
+        const docRef = doc(db, `categories/${categoryId}`)
+        const imageRef = ref(storage, `categories/${categoryId}/image`)
+        const productsRef = ref(storage, `categories/${categoryId}/products`)
+
+        await deleteDoc(docRef)
+            .then(async () => {
+                await deleteObject(imageRef)
+                await listAll(productsRef)
+                    .then(async data => {
+                        await Promise.all(data.prefixes.map(async item => {
+                            console.log(item.name)
+                            await ProductService.deleteProduct(categoryId, item.name, true)
+                        }))
+                    })
+            })
+    }
 }
 
 export default new CategoryService()

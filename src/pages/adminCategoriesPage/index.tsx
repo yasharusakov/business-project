@@ -1,7 +1,6 @@
 import {useActions} from "../../hooks/useActions"
 import {useEffect, useState} from "react"
 import {ICategory} from "../../types/ICategory"
-import FirebaseService from "../../services/firebaseService"
 import Loader from "../../components/ui/loader"
 import delete_icon from "../../assets/images/delete.png"
 import edit_icon from "../../assets/images/pencil.png"
@@ -9,15 +8,16 @@ import Popup from "../../components/popup"
 import CreateCategoryPopup from "../../components/popups/createCategoryPopup"
 import {Link} from "react-router-dom"
 import ListenService from "../../services/listenService"
+import CategoryService from "../../services/categoryService"
 import './style.scss'
 
 const AdminCategoriesPage = () => {
-    const {setPopup} = useActions()
+    const {openPopup} = useActions()
     const [loading, setLoading] = useState<boolean>(true)
     const [categories, setCategories] = useState<ICategory[]>([])
 
-    const deleteCategory = (id: string, title: string) => {
-        FirebaseService.deleteData({categoryId: id, name: title})
+    const deleteCategory = async (categoryId: string) => {
+        await CategoryService.deleteCategory(categoryId)
     }
 
     useEffect(() => {
@@ -36,7 +36,7 @@ const AdminCategoriesPage = () => {
 
     return (
         <div className="admin-categories-page">
-            <button onClick={() => setPopup({name: 'CreateCategoryPopup', type: true, data: null})} className="admin-categories-page__create-category">Створити категорію</button>
+            <button onClick={() => openPopup({name: 'CreateCategoryPopup'})} className="admin-categories-page__create-category">Створити категорію</button>
             <div className="cards">
                 <div className="cards__container">
                     {categories.map(category => {
@@ -49,10 +49,10 @@ const AdminCategoriesPage = () => {
                                     <div className="cards__card__text admin">
                                         <div className="cards__card__text__title category">{category.title}</div>
                                         <div className="cards__card__text__icons">
-                                            <div onClick={() => setPopup({name: 'CreateCategoryPopup', type: true, data: category})} className="edit_icon">
+                                            <div onClick={() => openPopup({name: 'CreateCategoryPopup', data: category})} className="edit_icon">
                                                 <img src={edit_icon} alt="edit_icon" style={{width: 24, height: 24}}/>
                                             </div>
-                                            <div onClick={() => deleteCategory(category.id, category.title)} className="delete_icon">
+                                            <div onClick={() => deleteCategory(category.id)} className="delete_icon">
                                                 <img src={delete_icon} alt="delete_icon" style={{width: 24, height: 24}}/>
                                             </div>
                                         </div>

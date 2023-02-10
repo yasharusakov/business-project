@@ -11,10 +11,13 @@ export type PopupState = {
     [propName in keyof typeof PopupNames]: {type: boolean, data?: any}
 }
 
-export interface IPopupPayloadAction {
+export interface IOpenPopupPayloadAction {
     name: keyof typeof PopupNames
     data?: any
-    type: boolean
+}
+
+export interface IClosePopupPayloadAction {
+    name: keyof typeof PopupNames
 }
 
 export interface IPopup {

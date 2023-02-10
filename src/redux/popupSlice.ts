@@ -1,5 +1,5 @@
 import {createSlice, Draft, PayloadAction} from "@reduxjs/toolkit"
-import {PopupState, IPopupPayloadAction} from "../types/popup"
+import {PopupState, IOpenPopupPayloadAction, IClosePopupPayloadAction} from "../types/popup"
 
 const initialState: PopupState = {
 	ShoppingCart: {type: false, data: null},
@@ -12,8 +12,11 @@ const popupSlice = createSlice({
 	name: 'popup',
 	initialState,
 	reducers: {
-		setPopup(state: Draft<PopupState>, action: PayloadAction<IPopupPayloadAction>) {
-			state[action.payload.name] = {type: action.payload.type, data: action.payload.data}
+		openPopup(state: Draft<PopupState>, action: PayloadAction<IOpenPopupPayloadAction>) {
+			state[action.payload.name] = {type: true, data: action.payload.data ? action.payload.data : null}
+		},
+		closePopup(state: Draft<PopupState>, action: PayloadAction<IClosePopupPayloadAction>) {
+			state[action.payload.name] = {type: false, data: null}
 		}
 	}
 })
@@ -21,5 +24,6 @@ const popupSlice = createSlice({
 export default popupSlice.reducer
 
 export const {
-	setPopup
+	openPopup,
+	closePopup
 } = popupSlice.actions

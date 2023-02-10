@@ -1,6 +1,6 @@
 import {useState} from "react"
 import Loader from "../../ui/loader"
-import * as yup from "yup"
+import {object, string} from "yup"
 import {SubmitHandler, useForm} from "react-hook-form"
 import {yupResolver} from "@hookform/resolvers/yup"
 import {useActions} from "../../../hooks/useActions"
@@ -9,10 +9,10 @@ import './style.scss'
 
 const reg = /^\+?3?8?(0\d{9})$/
 
-const schema = yup.object({
-    fullName: yup.string().required('Введіть Ім\'я та фамілію'),
-    phoneNumber: yup.string().required('Введіть мобільний телефон').matches(reg, 'Мобільний телефон введений неправильно'),
-    question: yup.string().required('Введіть запитання')
+const schema = object({
+    fullName: string().required('Введіть Ім\'я та фамілію'),
+    phoneNumber: string().required('Введіть мобільний телефон').matches(reg, 'Мобільний телефон введений неправильно'),
+    question: string().required('Введіть запитання')
 }).required()
 
 type Inputs = {
@@ -22,7 +22,7 @@ type Inputs = {
 }
 
 const SupportPopup = () => {
-    const {setPopup, setNotification} = useActions()
+    const {closePopup, setNotification} = useActions()
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({resolver: yupResolver(schema)})
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -32,7 +32,7 @@ const SupportPopup = () => {
         QuestionService.createQuestion(fullName, phoneNumber, question)
             .finally(() => {
                 setLoading(false)
-                setPopup({name: 'SupportPopup', type: false, data: null})
+                closePopup({name: 'SupportPopup'})
                 setNotification({value: 'Запитання відправлено', status: 'good'})
             })
     }

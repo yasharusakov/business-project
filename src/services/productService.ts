@@ -1,18 +1,7 @@
-import {
-    collection, deleteDoc,
-    doc,
-    getDoc,
-    getDocs,
-    getFirestore,
-    orderBy,
-    query,
-    serverTimestamp,
-    setDoc,
-    updateDoc
-} from "firebase/firestore"
+import {collection, deleteDoc, doc, getDoc, getDocs, getFirestore, orderBy, query, serverTimestamp, setDoc, updateDoc} from "firebase/firestore"
+import {deleteObject, getStorage, list, ref} from "firebase/storage"
 import {IProduct} from "../types/IProduct"
 import UploadService from "./uploadService"
-import {deleteObject, getStorage, listAll, ref} from "firebase/storage";
 
 class ProductService {
     async getProducts(categoryId: string) {
@@ -133,6 +122,45 @@ class ProductService {
         } catch (err) {
             console.log(err)
         }
+    }
+
+    async deleteProduct(categoryId: string, productId: string, deleteCategory?: boolean) {
+
+        const check = () => {
+            let value = false
+
+            if (deleteCategory) {
+                return true
+            } else {
+                // eslint-disable-next-line no-restricted-globals
+                value = confirm('Ви дійсно хочете видалити продукт?')
+            }
+
+            return value
+        }
+
+        const confirmValue = check()
+
+        if (!confirmValue || !categoryId || !productId) return
+
+        const db = getFirestore()
+        const storage = getStorage()
+        const docRef = doc(db, `categories/${categoryId}/items/${productId}`)
+        const imageRef = ref(storage, `categories/${categoryId}/products/${productId}/image`)
+        const imagesRef = ref(storage, `categories/${categoryId}/products/${productId}/images`)
+
+        await deleteDoc(docRef)
+            .then(async () => {
+                await deleteObject(imageRef)
+                await list(imagesRef)
+                    .then(async data => {
+                        await Promise.all(data.items.map(async item => {
+                            const itemRef = ref(storage, item.fullPath)
+                            await deleteObject(itemRef)
+                        }))
+                    })
+            })
+
     }
 }
 

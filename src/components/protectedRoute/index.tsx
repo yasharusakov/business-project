@@ -9,9 +9,7 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: FC<ProtectedRouteProps> = memo(({redirectPath, isAllowed, children}) => {
 
-    if (!isAllowed) {
-        return <Navigate to={redirectPath} replace />
-    }
+    if (!isAllowed) return <Navigate to={redirectPath} replace />
 
     return (
         <>

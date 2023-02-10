@@ -7,7 +7,7 @@ import './style.scss'
 
 const Popup: FC<IPopup> = memo(({title, name, render}) => {
 	const popup = useAppSelector(state => state.popup[name].type)
-	const {setPopup} = useActions()
+	const {closePopup} = useActions()
 
 	if (popup) {
 		document.body.style.overflow = 'hidden'
@@ -19,14 +19,14 @@ const Popup: FC<IPopup> = memo(({title, name, render}) => {
 		<div className={`popup ${name} ${popup ? 'show' : 'hide'}`}>
 			<div onClick={(e: MouseEvent<HTMLDivElement>) => {
 				if ((e.target as Element).classList.contains('popup__container')) {
-					setPopup({name: name, type: false, data: null})
+					closePopup({name})
 				}
 			}} className={`popup__container ${name}`}>
 				<div className={`popup__content ${name}`}>
 					{title && (
 						<div className="popup__control-panel">
 							<div className="popup__control-panel__title">{title}</div>
-							<div onClick={() => setPopup({name: name, type: false, data: null})} className="popup__control-panel__close">&#x2715;</div>
+							<div onClick={() => closePopup({name})} className="popup__control-panel__close">&#x2715;</div>
 						</div>
 					)}
 					<div className={`popup__main ${name}`}>

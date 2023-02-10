@@ -7,7 +7,7 @@ import Loader from "../../ui/loader"
 import './style.scss'
 
 const CreateCategoryPopup = () => {
-    const {setPopup} = useActions()
+    const {closePopup} = useActions()
     const data = useAppSelector(state => state.popup.CreateCategoryPopup.data)
     const [file, setFile] = useState<File | null>(null)
     const [url, setUrl] = useState<string>('')
@@ -16,34 +16,32 @@ const CreateCategoryPopup = () => {
 
     const onSubmitHandler = (e: FormEvent) => {
         e.preventDefault()
+
+        if (!categoryName || !file) return
+
         setLoading(true)
 
-        if (categoryName && file) {
-            CategoryService.createCategory(file, categoryName)
-                .finally(() => {
-                    setLoading(false)
-                    setPopup({name: 'CreateCategoryPopup', type: false, data: null})
-                })
-        } else {
-            setLoading(false)
-        }
+        CategoryService.createCategory(file, categoryName)
+            .finally(() => {
+                setLoading(false)
+                closePopup({name: 'CreateCategoryPopup'})
+            })
     }
 
     const onSubmitHandlerEdit = (e: FormEvent) => {
         e.preventDefault()
-        setLoading(true)
 
         const categoryId = data.id
 
-        if (categoryName && categoryId && url) {
-            CategoryService.editCategory(data.url === url ? null : file, categoryId, categoryName)
-                .finally(() => {
-                    setLoading(false)
-                    setPopup({name: 'CreateCategoryPopup', type: false, data: null})
-                })
-        } else {
-            setLoading(false)
-        }
+        if (!categoryName || !categoryId || !url) return
+
+        setLoading(true)
+
+        CategoryService.editCategory(data.url === url ? null : file, categoryId, categoryName)
+            .finally(() => {
+                setLoading(false)
+                closePopup({name: 'CreateCategoryPopup'})
+            })
     }
 
     useEffect(() => {

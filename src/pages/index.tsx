@@ -5,7 +5,7 @@ import Layout from "../components/layout"
 import MainPage from "./mainPage"
 import CategoryPage from "./categoryPage"
 import ProductPage from "./productPage"
-import Page404 from "./Page404"
+import Page404 from "./page404"
 import ScrollToTop from "../utils/scrollToTop"
 import Loader from "../components/ui/loader"
 

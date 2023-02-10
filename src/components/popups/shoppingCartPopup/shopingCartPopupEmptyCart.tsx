@@ -1,6 +1,6 @@
 import empty_cart from "../../../assets/images/empty-cart.png"
 
-const EmptyCart = () => {
+const ShopingCartPopupEmptyCart = () => {
     return (
         <div className="shopping-cart-popup__empty">
             <div className="shopping-cart-popup__empty__picture">
@@ -16,4 +16,4 @@ const EmptyCart = () => {
     )
 }
 
-export default EmptyCart
+export default ShopingCartPopupEmptyCart

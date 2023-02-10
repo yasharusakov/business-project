@@ -1,8 +1,8 @@
-import {useEffect, useState} from "react"
+import {useState} from "react"
 import {useAppSelector} from "../../../hooks/useAppSelector"
-import ShoppingCartForm from "./ShoppingCartForm"
-import Products from "./Products"
-import EmptyCart from "./EmptyCart"
+import ShoppingCartPopupForm from "./shoppingCartPopupForm"
+import ShoppingCartPopupProducts from "./shoppingCartPopupProducts"
+import ShopingCartPopupEmptyCart from "./shopingCartPopupEmptyCart"
 import './style.scss'
 
 const ShoppingCartPopup = () => {
@@ -14,7 +14,7 @@ const ShoppingCartPopup = () => {
             <div className="shopping-cart-popup__container">
                 {cart.length > 0 ? (
                     <>
-                        {!next ? <Products products={cart} /> : <ShoppingCartForm setNext={setNext} />}
+                        {!next ? <ShoppingCartPopupProducts products={cart} /> : <ShoppingCartPopupForm setNext={setNext} />}
                         <div className="shopping-cart-popup__next">
                             {!next ? (
                                 <>
@@ -28,7 +28,7 @@ const ShoppingCartPopup = () => {
                             )}
                         </div>
                     </>
-                ) : <EmptyCart/>}
+                ) : <ShopingCartPopupEmptyCart/>}
             </div>
         </div>
     )

@@ -6,7 +6,7 @@ import CategoryService from "../../../services/categoryService"
 import './style.scss'
 
 const CategoriesPopup = () => {
-    const {setPopup} = useActions()
+    const {closePopup} = useActions()
     const [categories, setCategories] = useState<ICategory[]>([])
 
     useEffect(() => {
@@ -23,7 +23,7 @@ const CategoriesPopup = () => {
             <div className="categories-popup__container">
                 {categories.map(category => {
                     return (
-                        <Link onClick={() => setPopup({name: 'CategoriesPopup', type: false, data: null})} to={`/c/${category.id}`} key={category.id} className="categories-popup__category">
+                        <Link onClick={() => closePopup({name: 'CategoriesPopup'})} to={`/c/${category.id}`} key={category.id} className="categories-popup__category">
                             <div className="categories-popup__category__container">
                                 <div className="categories-popup__category__picture">
                                     <img src={category.url} alt={category.title}/>

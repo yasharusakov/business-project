@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
 import {useNavigate} from "react-router-dom"
-import * as yup from "yup"
+import {object, string} from "yup"
 import {FC, useState} from "react"
 import Loader from "../../ui/loader"
 import {useAppSelector} from "../../../hooks/useAppSelector"
@@ -11,10 +11,10 @@ import OrderService from "../../../services/orderService"
 
 const reg = /^\+?3?8?(0\d{9})$/
 
-const schema = yup.object({
-    fullName: yup.string().required('Введіть ім\'я та фамілію'),
-    phoneNumber: yup.string().required('Введіть мобільний телефон').matches(reg, 'Мобільний телефон введений неправильно'),
-    address: yup.string().required('Введіть адрес / відділення Нової Пошти'),
+const schema = object({
+    fullName: string().required('Введіть ім\'я та фамілію'),
+    phoneNumber: string().required('Введіть мобільний телефон').matches(reg, 'Мобільний телефон введений неправильно'),
+    address: string().required('Введіть адрес / відділення Нової Пошти'),
 }).required()
 
 type Inputs = {
@@ -27,9 +27,9 @@ interface ShoppingCartFormProps {
     setNext: (data: boolean) => void
 }
 
-const ShoppingCartForm: FC<ShoppingCartFormProps> = ({setNext}) => {
+const ShoppingCartPopupForm: FC<ShoppingCartFormProps> = ({setNext}) => {
     const navigate = useNavigate()
-    const {clearCart, setPopup, setNotification} = useActions()
+    const {clearCart, closePopup, setNotification} = useActions()
     const cart = useAppSelector(state => state.shoppingCart.products)
     const [loading, setLoading] = useState<boolean>(false)
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({resolver: yupResolver(schema)})
@@ -42,7 +42,7 @@ const ShoppingCartForm: FC<ShoppingCartFormProps> = ({setNext}) => {
                 setLoading(false)
                 clearCart()
                 setNext(false)
-                setPopup({name: 'ShoppingCart', type: false, data: null})
+                closePopup({name: 'ShoppingCart'})
                 navigate('/')
                 setNotification({value: 'Замовлення відправлено', status: 'good'})
             })
@@ -64,4 +64,4 @@ const ShoppingCartForm: FC<ShoppingCartFormProps> = ({setNext}) => {
     )
 }
 
-export default ShoppingCartForm
+export default ShoppingCartPopupForm

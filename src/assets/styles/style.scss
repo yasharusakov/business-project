@@ -116,6 +116,7 @@ select {
 
 button {
   transition: .3s ease;
+  cursor: pointer;
   &:hover {
     opacity: 0.7;
   }

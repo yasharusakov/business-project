@@ -1,7 +1,6 @@
 import {Link, useParams} from "react-router-dom"
 import {useEffect, useState} from "react"
 import {IProduct} from "../../types/IProduct"
-import FirebaseService from "../../services/firebaseService"
 import ProductService from "../../services/productService"
 import Loader from "../../components/ui/loader"
 import edit_icon from "../../assets/images/pencil.png"
@@ -28,9 +27,9 @@ const AdminProductsPage = () => {
             .finally(() => setLoading(false))
     }, [categoryId])
 
-    const deleteProduct = (productId: string, name: string) => {
+    const deleteProduct = async (productId: string) => {
         if (!categoryId || !productId) return
-        FirebaseService.deleteData({categoryId, productId, name})
+        await ProductService.deleteProduct(categoryId, productId)
     }
 
     if (loading) {
@@ -57,7 +56,7 @@ const AdminProductsPage = () => {
                                             <Link to={`/admin/panel/c/${categoryId}/edit-product/${product.id}`} className="edit_icon">
                                                 <img src={edit_icon} alt="edit_icon" style={{width: 24, height: 24}}/>
                                             </Link>
-                                            <div onClick={() => deleteProduct(product.id, product.title)} className="delete_icon">
+                                            <div onClick={() => deleteProduct(product.id)} className="delete_icon">
                                                 <img src={delete_icon} alt="delete_icon" style={{width: 24, height: 24}}/>
                                             </div>
                                         </div>

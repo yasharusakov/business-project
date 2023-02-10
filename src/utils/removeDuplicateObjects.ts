@@ -1,7 +1,7 @@
 export function removeDuplicateObjects(array: any[], property: string) {
     const uniqueIds = [] as any[]
 
-    const unique = array.filter(element => {
+    return array.filter(element => {
         const isDuplicate = uniqueIds.includes(element[property])
 
         if (!isDuplicate) {
@@ -11,6 +11,4 @@ export function removeDuplicateObjects(array: any[], property: string) {
         }
         return false
     })
-
-    return unique
 }

@@ -2,11 +2,11 @@ import Logo from "../ui/logo"
 import Popup from "../popup"
 import ShoppingCartPopup from "../popups/shoppingCartPopup"
 import CategoriesPopup from "../popups/categoriesPopup"
-import instagram from '../../assets/images/instagram.png'
-import payments from '../../assets/images/payments.png'
 import Support from "../ui/support"
 import SupportPopup from "../popups/supportPopup"
 import Notification from "../ui/notification"
+import instagram from '../../assets/images/instagram.png'
+import payments from '../../assets/images/payments.png'
 import './style.scss'
 
 const Footer = () => {
@@ -41,8 +41,8 @@ const Footer = () => {
             <Popup title="Кошик" name="ShoppingCart" render={() => <ShoppingCartPopup/>}/>
             <Popup title="Каталог" name="CategoriesPopup" render={() => <CategoriesPopup/>}/>
             <Popup title="Технічна підтримка" name="SupportPopup" render={() => <SupportPopup/>}/>
-            <Support/>
             <Notification/>
+            <Support/>
         </footer>
     )
 }

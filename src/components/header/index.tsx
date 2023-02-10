@@ -7,7 +7,7 @@ import categories from '../../assets/images/categories.png'
 import './style.scss'
 
 const Header = () => {
-    const {setPopup, getProducts} = useActions()
+    const {openPopup, getProducts} = useActions()
     const cart = useAppSelector(state => state.shoppingCart.products)
 
     useEffect(() => {
@@ -19,10 +19,10 @@ const Header = () => {
             <div className="header__container container">
                 <Logo/>
                 <div className="header__icons">
-                    <div tabIndex={0} onClick={() => setPopup({name: 'CategoriesPopup', type: true, data: null})} className="header__icon header__icon_categories">
+                    <div tabIndex={0} onClick={() => openPopup({name: 'CategoriesPopup'})} className="header__icon header__icon_categories">
                         <img width={32} height={32} src={categories} alt="categories"/>
                     </div>
-                    <div tabIndex={0} onClick={() => setPopup({name: 'ShoppingCart', type: true, data: null})} className="header__icon header__icon_shopping-cart">
+                    <div tabIndex={0} onClick={() => openPopup({name: 'ShoppingCart'})} className="header__icon header__icon_shopping-cart">
                         <img width={32} height={32} src={shopping_cart} alt="shopping_cart"/>
                         {cart.length !== 0 && <div className="amount-in-cart">{cart.length}</div>}
                     </div>

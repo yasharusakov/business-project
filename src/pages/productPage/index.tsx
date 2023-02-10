@@ -31,7 +31,7 @@ const ProductPage: FC<ProductPageProps> = ({characteristics}) => {
     const [swiper, setSwiper] = useState<SwiperType>()
     const [product, setProduct] = useState<IProduct>({} as IProduct)
     const products = useAppSelector(state => state.shoppingCart.products)
-    const {addToCart, setPopup} = useActions()
+    const {addToCart, openPopup} = useActions()
     const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
@@ -132,7 +132,7 @@ const ProductPage: FC<ProductPageProps> = ({characteristics}) => {
                             </div>
                             {(categoryId && productId) && (
                                 products.find(product => (product.productId === productId && product.categoryId === categoryId)) ? (
-                                    <button tabIndex={0} className="product-page__product-button has" onClick={() => setPopup({name: 'ShoppingCart', type: true, data: null})}>В кошику</button>
+                                    <button tabIndex={0} className="product-page__product-button has" onClick={() => openPopup({name: 'ShoppingCart'})}>В кошику</button>
                                 ) : (
                                     <button tabIndex={0} className="product-page__product-button add-to-cart" onClick={() => addToCart({categoryId, productId, amount: 1, ...product})}>+ Додати у кошик</button>
                                 )
