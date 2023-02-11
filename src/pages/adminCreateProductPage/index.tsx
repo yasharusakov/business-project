@@ -143,7 +143,7 @@ const AdminCreateProductPage = () => {
                 <button
                     disabled={(
                         loading ||
-                        categoryId === undefined ||
+                        !categoryId ||
                         !url ||
                         !title ||
                         !characteristics ||

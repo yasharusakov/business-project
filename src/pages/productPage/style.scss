@@ -32,20 +32,6 @@
     .swiper {
         max-width: 350px;
         max-height: 350px;
-        .swiper-button-next {
-            &:after {
-                content: "\203A";
-                font-size: 60px;
-                font-weight: 900;
-            }
-        }
-        .swiper-button-prev {
-            &:after {
-                content: "\2039";
-                font-size: 60px;
-                font-weight: 900;
-            }
-        }
     }
     &__row {
         width: 100%;

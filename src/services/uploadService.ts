@@ -33,6 +33,17 @@ class UploadService {
             console.log(err)
         }
     }
+
+    async uploadImageForMainSlider(file: File, id: string) {
+        try {
+            const storage = getStorage()
+            const storageRef = ref(storage, `main-slider/${id}`)
+            await uploadBytes(storageRef, file)
+            return await getDownloadURL(storageRef)
+        } catch (err) {
+            console.log(err)
+        }
+    }
 }
 
 export default new UploadService()

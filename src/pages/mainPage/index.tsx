@@ -6,23 +6,23 @@ import Loader from "../../components/ui/loader"
 import wallet from '../../assets/images/wallet.png'
 import delivery from '../../assets/images/delivery.png'
 import warranty from '../../assets/images/warranty.png'
-import {Pagination, Autoplay, Navigation} from 'swiper'
+import {Pagination, Autoplay} from 'swiper'
 import {Swiper, SwiperSlide} from 'swiper/react'
 import 'swiper/scss'
 import 'swiper/scss/navigation'
 import 'swiper/scss/pagination'
 import 'swiper/scss/autoplay'
 import './style.scss'
+import MainSliderService from "../../services/mainSliderService";
 
 const MainPage = () => {
     const [loading, setLoading] = useState<boolean>(true)
-    const [categories, setCategories] = useState<ICategory[]>([])
+    const [slides, setSlides] = useState<{id: string, url: string}[]>([])
 
     useEffect(() => {
-        CategoryService.getCategories()
+        MainSliderService.getSlides()
             .then(data => {
-                if (!data) return
-                setCategories(data)
+                setSlides(data as {id: string, url: string}[])
             })
             .finally(() => {
                 setLoading(false)
@@ -43,30 +43,18 @@ const MainPage = () => {
         <div className="main-page">
             <div className="main-page__container">
                 <Swiper
-                    className="categories-slider"
                     loop
                     autoplay={{delay: 3500}}
-                    modules={[Navigation, Pagination, Autoplay]}
+                    modules={[Pagination, Autoplay]}
                     navigation
-                    spaceBetween={10}
                     slidesPerView={1}
                     grabCursor={true}
                     pagination={{clickable: true}}
                 >
-                    {categories.map((category, index) => {
+                    {slides.map(slide => {
                         return (
-                            <SwiperSlide className="categories-slider-slide" key={category.id}>
-                                <div className="categories-slider-slide-container">
-                                    <div className="categories-slider-slide-picture">
-                                        <img
-                                            src={category.url}
-                                            alt={category.title}
-                                        />
-                                    </div>
-                                    <div className="categories-slider-slide-title">
-                                        <h3>{category.title}</h3>
-                                    </div>
-                                </div>
+                            <SwiperSlide key={slide.id}>
+                                <img src={slide.url} alt={slide.url}/>
                             </SwiperSlide>
                         )
                     })}

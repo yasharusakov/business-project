@@ -10,7 +10,7 @@ import Tabs from "../../components/ui/tabs"
 import ProductService from "../../services/productService"
 import {Swiper, SwiperSlide} from "swiper/react"
 import {Swiper as SwiperType} from "swiper/types"
-import {Navigation, Pagination} from "swiper"
+import {Pagination} from "swiper"
 import 'swiper/scss'
 import 'swiper/scss/navigation'
 import 'swiper/scss/pagination'
@@ -80,7 +80,7 @@ const ProductPage: FC<ProductPageProps> = ({characteristics}) => {
                             </div>
                             <Swiper
                                 loop
-                                modules={[Navigation, Pagination]}
+                                modules={[Pagination]}
                                 navigation
                                 spaceBetween={10}
                                 slidesPerView={1}
