@@ -18,7 +18,6 @@ const AdminTabs = () => {
         {to: '/admin/questions', value: 'Запитання'}
     ]
 
-
     return (
         <div className="tabs">
             <div className="tabs__container container">

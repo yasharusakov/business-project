@@ -9,9 +9,12 @@ const Notification = () => {
 
     useEffect(() => {
         if (!status || !value) return
-        setTimeout(() => {
+
+        const id = setTimeout(() => {
             setNotification({value: null, status: null})
         }, 3500)
+
+        return () => clearTimeout(id)
     }, [status, value])
 
     return (

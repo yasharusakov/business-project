@@ -8,9 +8,14 @@
         &__choose {
             display: flex;
             flex-direction: column;
-            > div {
+            gap: 15px;
+            &__item {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: #E5E7E9;
                 cursor: pointer;
-                padding: 10px;
+                padding: 5px;
                 width: 50px;
                 height: 50px;
                 transition: all .3s ease;
@@ -30,8 +35,18 @@
         }
     }
     .swiper {
+        background: #E5E7E9;
         max-width: 350px;
         max-height: 350px;
+        &-slide {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img {
+                width: auto;
+                max-height: 350px;
+            }
+        }
     }
     &__row {
         width: 100%;
@@ -49,28 +64,21 @@
         }
         &.characteristics {
             width: 100%;
-            align-self: flex-start;
             display: flex;
             flex-direction: column;
             flex: 0 1 200px;
-            position: sticky;
-            top: 130px;
-            .product-page__product-title {
-                font-size: 16px;
-                @media screen and (max-width: 600px){
-                    @include adapProp('font-size', 24, 30)
-                }
-            }
         }
         &:last-child {
             display: flex;
             gap: 25px;
-            @media screen and (max-width: 600px){
-                flex-wrap: wrap;
-                justify-content: center;
-            }
             @media screen and (max-width: 750px){
                 flex: 1;
+                flex-wrap: wrap;
+                justify-content: center;
+                .swiper {
+                    width: 100%;
+                    max-width: 100%;
+                }
             }
         }
     }
@@ -94,17 +102,6 @@
             word-wrap: anywhere;
         }
     }
-    &__picture {
-        background: #EAEAEA;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        img {
-            user-select: none;
-            width: auto;
-            max-height: 350px;
-        }
-    }
     &__additional-data {
         flex: 1;
         gap: 15px;
@@ -114,7 +111,7 @@
     &__product-title {
         font-weight: 600;
         font-family: "Open Sans", 'sans-serif';
-        @include adapProp('font-size', 24, 30)
+        @include adapProp('font-size', 16, 24)
     }
     &__product-price {
         font-family: "Russo One", 'sans-serif';

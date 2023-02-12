@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react"
 import {useParams} from "react-router-dom"
-import CategoryPageProducts from "./categoryPageProducts"
 import {ICategory} from "../../types/ICategory"
+import CategoryPageProducts from "./categoryPageProducts"
 import Loader from "../../components/ui/loader"
 import CategoryService from "../../services/categoryService"
 import './style.scss'
@@ -27,9 +27,7 @@ const CategoryPage = () => {
             .finally(() => setLoading(false))
     }, [categoryId])
 
-    if (loading) {
-        return <Loader/>
-    }
+    if (loading) return <Loader/>
 
     return (
         <div className="category-page">

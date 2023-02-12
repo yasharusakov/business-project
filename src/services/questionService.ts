@@ -15,8 +15,8 @@ class QuestionService {
         })
     }
 
-    getQuestions(setData: {(data: any): void}) {
-        return ListenService.listenDocs(setData, 'questions', 'desc')
+    getQuestions(setData: {(data: any): void}, setLastVisible: {(data: any): void}) {
+        return ListenService.listenDocs(setData, 'questions', 'desc', setLastVisible)
     }
 }
 

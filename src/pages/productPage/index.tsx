@@ -8,13 +8,7 @@ import {IProductCharacteristic} from "../../types/IProductCharacteristic"
 import Loader from "../../components/ui/loader"
 import Tabs from "../../components/ui/tabs"
 import ProductService from "../../services/productService"
-import {Swiper, SwiperSlide} from "swiper/react"
-import {Swiper as SwiperType} from "swiper/types"
-import {Pagination} from "swiper"
-import 'swiper/scss'
-import 'swiper/scss/navigation'
-import 'swiper/scss/pagination'
-import 'swiper/scss/autoplay'
+import ProductPageSlider from "./productPageSlider"
 import './style.scss'
 
 type ProductPageParams = {
@@ -28,7 +22,6 @@ interface ProductPageProps {
 
 const ProductPage: FC<ProductPageProps> = ({characteristics}) => {
     const {categoryId, productId} = useParams<ProductPageParams>()
-    const [swiper, setSwiper] = useState<SwiperType>()
     const [product, setProduct] = useState<IProduct>({} as IProduct)
     const products = useAppSelector(state => state.shoppingCart.products)
     const {addToCart, openPopup} = useActions()
@@ -45,9 +38,7 @@ const ProductPage: FC<ProductPageProps> = ({characteristics}) => {
             .finally(() => setLoading(false))
     }, [categoryId, productId])
 
-    if (loading) {
-        return <Loader/>
-    }
+    if (loading) return <Loader/>
 
     const tabs = [
         {to: `/c/${categoryId}/${productId}`, value: 'Усе про товар'},
@@ -68,42 +59,7 @@ const ProductPage: FC<ProductPageProps> = ({characteristics}) => {
                 <div className="product-page__row">
                     {(characteristics && product.characteristics) && <ProductPageCharacteristics productCharacteristics={transformedCharacteristics}/>}
                     <div className={`product-page__column ${characteristics ? 'characteristics' : ''}`}>
-                        <div className={`slides ${characteristics ? 'characteristics': ''}`}>
-                            <div className="slides__choose">
-                                {[{url: product.url, id: product.id}, ...product.images].map((image, index) => {
-                                    return (
-                                        <div key={image.id} onClick={() => swiper?.slideTo(index + 1)} className={`product-page__picture ${characteristics ? 'characteristics' : ''}`}>
-                                            <img src={image.url} alt={image.id}/>
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                            <Swiper
-                                loop
-                                modules={[Pagination]}
-                                navigation
-                                spaceBetween={10}
-                                slidesPerView={1}
-                                grabCursor={true}
-                                pagination={{clickable: true}}
-                                onSwiper={setSwiper}
-                            >
-                                <SwiperSlide>
-                                    <div className={`product-page__picture ${characteristics ? 'characteristics' : ''}`}>
-                                        <img src={product.url} alt={product.id}/>
-                                    </div>
-                                </SwiperSlide>
-                                {product.images.map(image => {
-                                    return (
-                                        <SwiperSlide key={image.id}>
-                                            <div className={`product-page__picture ${characteristics ? 'characteristics' : ''}`}>
-                                                <img src={image.url} alt={image.id}/>
-                                            </div>
-                                        </SwiperSlide>
-                                    )
-                                })}
-                            </Swiper>
-                        </div>
+                        <ProductPageSlider product={product} characteristics={characteristics}/>
                         <div className="product-page__additional-data">
                             <h1 className="product-page__product-title">
                                 {product?.title}

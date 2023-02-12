@@ -1,5 +1,5 @@
-import {collection, doc, getFirestore, limit, onSnapshot, orderBy, OrderByDirection, query} from "firebase/firestore";
-import {removeDuplicateObjects} from "../utils/removeDuplicateObjects";
+import {collection, doc, getFirestore, limit, onSnapshot, orderBy, OrderByDirection, query} from "firebase/firestore"
+import {removeDuplicateObjects} from "../utils/removeDuplicateObjects"
 
 class ListenService {
     listenDocs(setData: {(data: any): void}, path: string, orderByValue: OrderByDirection, setLastVisible?: {(data: any): void}) {

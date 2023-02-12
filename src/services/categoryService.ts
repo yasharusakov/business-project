@@ -1,21 +1,8 @@
-import {
-    collection,
-    doc,
-    getDoc,
-    getDocs,
-    getFirestore,
-    orderBy,
-    query,
-    serverTimestamp,
-    setDoc,
-    updateDoc,
-    Unsubscribe,
-    deleteDoc
-} from "firebase/firestore"
-import UploadService from "./uploadService"
+import {collection, doc, getDoc, getDocs, getFirestore, orderBy, query, serverTimestamp, setDoc, updateDoc, deleteDoc} from "firebase/firestore"
+import {deleteObject, getStorage, listAll, ref} from "firebase/storage"
 import {ICategory} from "../types/ICategory"
-import {deleteObject, getStorage, list, listAll, ref} from "firebase/storage";
-import ProductService from "./productService";
+import UploadService from "./uploadService"
+import ProductService from "./productService"
 
 class CategoryService {
     async getCategories() {

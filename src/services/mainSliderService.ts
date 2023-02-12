@@ -1,6 +1,6 @@
-import UploadService from "./uploadService"
 import {collection, deleteDoc, doc, getDocs, getFirestore, setDoc} from "firebase/firestore"
 import {deleteObject, getStorage, ref} from "firebase/storage"
+import UploadService from "./uploadService"
 
 class MainSliderService {
     async getSlides() {

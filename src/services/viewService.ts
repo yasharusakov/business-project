@@ -1,4 +1,4 @@
-import {collection, doc, getFirestore, onSnapshot, query, updateDoc, where} from "firebase/firestore";
+import {collection, doc, getFirestore, onSnapshot, query, updateDoc, where} from "firebase/firestore"
 import {IOrder} from "../types/IOrder"
 
 class ViewService {

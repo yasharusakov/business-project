@@ -1,14 +1,14 @@
-import {useState} from "react"
 import {useForm, SubmitHandler} from "react-hook-form"
 import {yupResolver} from '@hookform/resolvers/yup'
 import {getAuth, signInWithEmailAndPassword} from "firebase/auth"
 import {useNavigate} from "react-router-dom"
-import * as yup from "yup"
+import {object, string} from "yup"
+import {useActions} from "../../hooks/useActions"
 import './style.scss'
 
-const schema = yup.object({
-    email: yup.string().required('email is required').email(),
-    password: yup.string().required('password is required'),
+const schema = object({
+    email: string().required('email is required').email(),
+    password: string().required('password is required'),
 }).required()
 
 type Inputs = {
@@ -19,7 +19,7 @@ type Inputs = {
 const AdminLoginPage = () => {
     const navigate = useNavigate()
     const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({resolver: yupResolver(schema)})
-    const [error, setError] = useState<string>('')
+    const {setNotification} = useActions()
 
     const onSubmit: SubmitHandler<Inputs> = async data => {
         const auth = getAuth()
@@ -29,18 +29,19 @@ const AdminLoginPage = () => {
                     navigate('/admin/panel')
                 }
             })
-            .catch((error) => setError(error.message))
+            .catch((error) => {
+                setNotification({value: error.message, status: 'wrong'})
+            })
     }
 
     return (
         <div className="admin-login-page">
             <div className="admin-login-page__container container">
-                <p style={{color: 'red'}}>{error}</p>
                 <form onSubmit={handleSubmit(onSubmit)} className="admin-login-page__form">
                     <input autoComplete="off" placeholder="email" type="text" {...register("email")}/>
-                    <p style={{color: 'red'}}>{errors.email?.message}</p>
+                    <p>{errors.email?.message}</p>
                     <input autoComplete="off" placeholder="password" type="password" {...register("password")}/>
-                    <p style={{color: 'red'}}>{errors.password?.message}</p>
+                    <p>{errors.password?.message}</p>
                     <button>Sign in</button>
                 </form>
             </div>

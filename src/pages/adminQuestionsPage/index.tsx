@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react"
 import Question from "./question"
 import QuestionService from "../../services/questionService"
+import UtilsService from "../../services/utilsService"
 import './style.scss'
-import UtilsService from "../../services/utilsService";
 
 const AdminQuestionsPage = () => {
     const [questions, setQuestions] = useState<any[]>([])
@@ -10,12 +10,9 @@ const AdminQuestionsPage = () => {
     const [lastVisibleDoc, setLastVisibleDoc] = useState<any>()
 
     useEffect(() => {
-        const unsub = QuestionService.getQuestions(setQuestions)
+        const unsub = QuestionService.getQuestions(setQuestions, setLastVisible)
         if (!unsub) return
-
-        return () => {
-            unsub()
-        }
+        return () => unsub()
     }, [])
 
     return (

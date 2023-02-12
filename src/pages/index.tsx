@@ -32,9 +32,7 @@ const Pages = () => {
         {path: '/admin/questions', Component: AdminQuestionsPage, redirectPath: '/admin/login'}
     ]
 
-    if (loading) {
-        return <Loader/>
-    }
+    if (loading) return <Loader/>
 
     return (
         <BrowserRouter>
